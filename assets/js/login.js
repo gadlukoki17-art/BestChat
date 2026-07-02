@@ -1,3 +1,5 @@
+import { postData } from './modules/api.js';
+
 const loginForm = document.getElementById("login-form");
 const emailInput = document.getElementById("email");
 const passwordInput = document.getElementById("password");
