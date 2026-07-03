@@ -1,4 +1,5 @@
 import { postData } from './modules/api.js';
+import { saveToken } from "./modules/storage.js";
 
 const loginForm = document.getElementById("login-form");
 const emailInput = document.getElementById("email");
