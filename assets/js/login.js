@@ -68,7 +68,7 @@ loginForm.addEventListener("submit", async (event) => {
        console.log("Login response:", result);
 
        if(result.success) {
-            saveToken(result.data.token);
+            saveToken(result.data.token, remember.ckeked);
             window.location.href = "chat.html";
        } else {
             showError(result.message);
