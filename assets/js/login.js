@@ -26,6 +26,8 @@ function setLoading(isloading) {
 }
 
 loginForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
     const email = emailInput.value.trim();
     const password = passwordInput.value.trim();
 
@@ -47,7 +49,7 @@ loginForm.addEventListener("submit", async (event) => {
        console.log("Login response:", result);
 
        if(result.success) {
-            localStorage.setItem("token", result.data.token);
+            saveToken(result.data.token);
             window.location.href = "chat.html";
        } else {
             alert(result.message);
@@ -63,8 +65,8 @@ loginForm.addEventListener("submit", async (event) => {
 });
 
 hidebtn.addEventListener("click", () => {
-    if(passwordInput.typt === "password") {
-        passwordInput.typt = "text";
+    if(passwordInput.type === "password") {
+        passwordInput.type = "text";
     } else {
         passwordInput.type = "password";
     }
