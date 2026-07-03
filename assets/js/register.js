@@ -12,7 +12,7 @@ const eyeOpen1 = document.getElementById("eye-open-1");
 const eyeClosed1 = document.getElementById("eye-closed-1");
 const eyeOpen2 = document.getElementById("eye-open-2");
 const eyeClosed2 = document.getElementById("eye-closed-2");
-const formMessage = document.getElementById("from-message")
+const formMessage = document.getElementById("from-message");
 const createbtnText = document.getElementById("createbtn-text");
 
 function showError(message) {

@@ -11,6 +11,25 @@ const loginBtn = document.getElementById("loginbtn");
 const spinner = document.getElementById("spinner");
 const hidebtn = document.getElementById("hidebtn");
 const btnText = document.getElementById("btn-text");
+const formMessage = document.getElementById("from-message");
+
+function hideMessage() {
+    formMessage.textContent = "";
+    formMessage.className = "hidden";
+}
+
+function showError(message) {
+    formMessage.textContent;
+    formMessage.className = 
+    "rounded-lg p-3 text-sm bg-red-100 text-red-700 border border-red-300";
+
+    formMessage.innerHTML = `
+    <div class="flex items-center gap-2">
+        <i class="fa-solid fa-circle-xmark text-red-500"></i>
+        <span>${message}</span>
+    </div>
+`;
+}
 
 function setLoading(isloading) {
     if(isloading) {
@@ -32,7 +51,7 @@ loginForm.addEventListener("submit", async (event) => {
     const password = passwordInput.value.trim();
 
     if(!email || !password) {
-        alert("Please fill in all fields.");
+        showError("Please fill in all fields.");
         return;
     }
 
@@ -52,12 +71,12 @@ loginForm.addEventListener("submit", async (event) => {
             saveToken(result.data.token);
             window.location.href = "chat.html";
        } else {
-            alert(result.message);
+            showError(result.message);
        }
        
     } catch (error) {
         console.error(error);
-        alert("Something went wrong. Please try again.");
+        showError("Something went wrong. Please try again.");
         
     } finally {
         setLoading(false);
