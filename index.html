@@ -4,32 +4,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <title>BestChat</title>
+    <title>Kadea Chat</title>
 </head>
-<body class="bg-[#FCF5EB] flex items-center justify-center md:h-[100vh]">
-    <main class=" max-sm:min-h-screen flex flex-col items-center justify-center max-sm:mx-8">
-        <div class="flex gap-2 mb-4">
-            <div class="w-12 h-12 bg-gradient-to-r from-[#3B82F6] via-[#6366F1]/60 to-[#7C3AED]/30 text-white font-medium rounded-2xl flex items-center justify-center mb-3">
-                <img src="assets/images/png-transparent-chat-message-communication-chatting-conversation-messaging-3d-icon-thumbnail-removebg-preview.png" alt="" class="w-10 h-10">
-            </div>    
-            <h1 class="pt-3 font-extrabold bg-gradient-to-r from-[#3B82F6] via-[#6366F1]/60 to-[#7C3AED]/10 bg-clip-text text-transparent ">BestChat</h1>
+<body class="flex items-center justify-center h-[100vh]">
+    <main class="min-h-screen flex flex-col items-center justify-center absolute w-full md:max-w-md max-w-[22rem]">
+        <div class="flex flex-col items-center justify-center gap-2 mb-4">
+            <div class="w-12 h-12 bg-blue-600 rounded-xl flex flex-col items-center justify-center shadow-md shadow-blue-200 mb-4">
+                <svg class="w-6 h-6 fill-current text-white" viewBox="0 0 24 24">
+                    <path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 9h12v2H6V9zm8 5H6v-2h8v2zm4-6H6V6h12v2z"/>
+                </svg>
+            </div>
+            <h1 class="text-2xl font-bold text-[#004AC6] tracking-tight">Kadea Chat</h1>        
         </div>
-        <section class="bg-white w-full max-w-sm mx-12 rounded-2xl h-[22rem] p-4 shadow-lg pt-8">
+        <section class="bg-white w-full max-w-sm mx-12 rounded-2xl h-[22rem] p-4 shadow-sm borde border-gray-100 pt-8">
             <div class="bg-white flex justify-center w-20 h-20 rounded-full border border-[#25D366] mx-auto">
                 <img src="assets/images/1f44b.gif" alt="hand" class="w-full h-full object-cover p-3" >
             </div>
             <div class="text-center">
-                <h2 class="font-semibold text-[#004AC6] mb-2 md:text-xl">Welcome to BestChat</h2>
+                <h2 class="font-semibold text-[#004AC6] mb-2 md:text-xl">Welcome to Kadea Chat</h2>
                 <p class="text-xs text-gray-500 leading-relaxed mb-8 px-4">Ready to chat? Your conversations are fast, private, and secure.</p>
             </div>
             <div class="flex flex-col justify-center gap-4">
-               <button id="login-btn" class="relative p-[1px] rounded-full overflow-hidden bg-gradient-to-r from-[#3B82F6] via-[#6366F1]/60 to-[#7C3AED]/30 active:scale-95 transition-transform group">
-                    <span class="block px-6 py-3 rounded-full bg-gradient-to-r from-[#3B82F6] via-[#6366F1]/60 to-[#7C3AED]/30 text-white font-medium text-sm transition-all duration-200 group-hover:bg-white group-hover:bg-none group-hover:text-[#3B82F6]">
+               <button id="login-btn" class="relative p-[1px] rounded-xl overflow-hidden  bg-blue-600 text-white active:scale-95 transition-transform group">
+                    <span class="block px-6 py-3 rounded-xl font-medium text-sm transition-all duration-200 group-hover:bg-white group-hover:bg-none group-hover:text-[#3B82F6]">
                          Sign in
                     </span>
                 </button>
-                <button id="register-btn"  class="relative p-[1px] rounded-full overflow-hidden bg-gradient-to-r from-[#3B82F6] via-[#6366F1]/60 to-[#7C3AED]/30 active:scale-95 transition-transform group">
-                    <span class="block px-6 py-3 rounded-full bg-white text-[#3B82F6] font-medium text-sm transition-all duration-200 group-hover:bg-transparent group-hover:text-white">
+                <button id="register-btn"  class="relative p-[1px] rounded-xl overflow-hidden bg-blue-600 text-white active:scale-95 transition-transform group">
+                    <span class="block py-2.5 rounded-xl bg-white text-[#3B82F6] font-medium text-sm transition-all duration-200 group-hover:bg-transparent group-hover:text-white">
                         Sign Up
                     </span>
                 </button>
