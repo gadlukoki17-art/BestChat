@@ -25,7 +25,7 @@ if(!token) {
 }
 
 async function loadCurrentUser() {
-    const result = await getDataData("/auth/me", token);
+    const result = await getData("/auth/me", token);
 
     console.log("User connecté :", result);  
 }

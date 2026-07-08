@@ -1,20 +1,21 @@
 const TOKEN_KEY = "kadea_token";
 
 export function saveToken(token, remember) {
-    if(remember) { 
-        localStorage.setItem("kadea_token", token);
+    if (remember) {
+        localStorage.setItem(TOKEN_KEY, token);
     } else {
-        sessionStorage.removeItem("kadea_token", token);
-    }    
+        sessionStorage.setItem(TOKEN_KEY, token);
+    }
 }
 
 export function getToken() {
-    return (localStorage.setItem("kadea_token") ||
-        sessionStorage.removeItem("kadea_token")
-    );    
+    return (
+        localStorage.getItem(TOKEN_KEY) ||
+        sessionStorage.getItem(TOKEN_KEY)
+    );
 }
 
 export function removeToken() {
-    localStorage.removeItem("kadea_token");
-    sessionStorage.removeItem("kadea_token");
+    localStorage.removeItem(TOKEN_KEY);
+    sessionStorage.removeItem(TOKEN_KEY);
 }
