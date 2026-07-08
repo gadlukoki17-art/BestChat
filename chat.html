@@ -89,11 +89,12 @@
          <section class="w-full hidden md:flex flex-1 flex-col">
             <header class="flex items-center justify-center gap-2 w-full px-4 py-2 border-b border-gray-200">
                 <div>
-                    <img src="assets/images/avatar2.jfif" alt="profil" class="w-10 h-10 rounded-full object-cover">
+                    <img id="chat-user-avatar" src="assets/images/avatar2.jfif" alt="profil" class="w-10 h-10 rounded-full object-cover">
                 </div>
                 <div>
-                    <h2>Sarah Connor</h2>
+                    <h2 id="chat-user-name">Sarah Connor</h2>
                     <p class="text-sm text-[#5C5F60]">Online</p>
+                    <p id="chat-user-status" class="text-xs text-gray-500">No conversation selected</p>
                 </div> 
                 <div class="flex justify-center gap-2 ml-auto">
                     <button id="call-btn2" class="hover:bg-gray-200 p-2 rounded-full transition-all duration-300 ease-out">
