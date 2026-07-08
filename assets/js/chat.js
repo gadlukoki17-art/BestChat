@@ -82,7 +82,7 @@ function createUserCard(user) {
     name.className = "font-semibold text-sm text-gray-900 truncate";
 
     const status = document.createElement("p");
-    status.textContent = user.bio || user.email;
+    status.textContent = user.bio || "Start a conversation";
     status.className = "text-xs text-gray-500 truncate";
 
     div.appendChild(name);
