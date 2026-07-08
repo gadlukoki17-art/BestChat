@@ -10,6 +10,9 @@ const editBtn = document.getElementById("edit-btn");
 const currentUserAvatar = document.getElementById("current-user-avatar");
 const currentUserName = document.getElementById("current-user-name");
 const currentUserStatus = document.getElementById("current-user-status");
+const chatUserAvatar = document.getElementById("chat-user-avatar");
+const chatUserName = document.getElementById("chat-user-name");
+const chatUserStatus = document.getElementById("chat-user-status");
 const searchConvesation = document.getElementById("search-convesation");
 const conversationList = document.getElementById("conversation-list");
 const callBtn2 = document.getElementById("call-btn2");
@@ -98,9 +101,15 @@ function createUserCard(user) {
 
         button.classList.add("bg-blue-100");
 
-        console.log(selectedUser);
+        updateChatHeader(selectedUser);
         
     });
 
     return button;
+}
+
+function updateChatHeader(user) {
+    chatUserName.textContent = user.fullName;
+    chatUserStatus.textContent = "Active";
+    chatUserAvatar.src =  user.avatarUrl || "assets/images/avatar.avif";
 }
