@@ -1,5 +1,5 @@
 import { getToken } from './modules/storage.js';
-import { getData } from './modules/api.js';
+import { getData, postData } from "./modules/api.js";
 
 const chatBtn = document.getElementById("chat-btn");
 const callBtn = document.getElementById("call-btn");
@@ -25,6 +25,119 @@ const emojiBtn = document.getElementById("emoji-btn");
 const messageInput = document.getElementById("message-input");
 
 let selectedUser = null;
+let activeConversationId = null;
+let currentUserId = null;
+let conversations = [];
+
+async function openConversation(user) {
+    const existingConversation = conversations.find((conversation) => {
+        return conversation.participants?.some((participant) => {
+            return participant.id === user.id;
+        });
+    });
+
+    if (existingConversation) {
+        activeConversationId = existingConversation.id;
+        loadMessages(activeConversationId);
+        return;
+    }
+
+    const payload = {
+        type: "private",
+        name: user.fullName,
+        participantIds: [user.id]
+    };
+
+    const result = await postData("/conversations", payload, token);
+
+    if (result.success) {
+        const conversation = result.data.conversation;
+
+        conversations.push(conversation);
+
+        activeConversationId = conversation.id;
+        loadMessages(activeConversationId);
+    }
+}
+
+async function loadMessages(conversationId) {
+    const result = await getData(
+         `/conversations/${conversationId}/messages`,
+        token
+    );
+
+    if(result.success) {
+        messagesContainer.innerHTML = "";
+
+        result.data.messages.forEach((message) => {
+            const messageBubble = createMessageBubble(message);
+            messagesContainer.appendChild(messageBubble);
+        });
+
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    }
+}
+
+function createMessageBubble(message) {
+    const isMine = message.senderId === currentUserId;
+
+    const wrapper = document.createElement("div");
+    wrapper.className = isMine ? "flex justify-end" : "flex justify-start";
+    
+    const bubble = document.createElement("p");
+    bubble.textContent = message.content;
+    bubble.className = isMine
+        ? "max-w-[70%] rounded-t-xl rounded-bl-xl px-4 py-2 text-sm bg-blue-600 text-white" 
+        : "max-w-[70%] rounded-t-xl rounded-br-xl px-4 py-2 text-sm bg-gray-200 text-gray-900";
+
+    const bubbleContainer = document.createElement("div");
+    bubbleContainer.className = isMine
+      ? "flex flex-col items-end"
+      : "flex flex-col items-start";
+
+    const time = document.createElement("span");
+    time.className = "text-[11px] text-gray-400 mt-1";
+    
+    time.textContent = new Date(message.createdAt)
+        .toLocaleTimeString([], {
+            hour: "2-digit",
+            minute: "2-digit"
+        });
+
+    bubbleContainer.appendChild(bubble);
+    bubbleContainer.appendChild(time);
+
+    wrapper.appendChild(bubbleContainer);
+    return wrapper;
+}
+
+async function loadConvesation() {
+    const result = await getData("/conversations", token);
+
+    if(result.success) {
+        conversations = result.data.conversations;
+        console.log("Conversations :", conversations);
+    }
+}
+
+messageForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    const content = messageInput.value.trim();
+
+    if (!content || !activeConversationId) return;
+
+    const result = await postData(
+        `/conversations/${activeConversationId}/messages`,
+        { content },
+        token
+    );
+
+    if(result.success) {
+        messageInput.value = "";
+        loadMessages(activeConversationId);
+    }
+});
 
 const token = getToken();
 
@@ -37,6 +150,8 @@ async function loadCurrentUser() {
 
     if(result.success) {
         const user = result.data.user;
+
+        currentUserId = user.id;
 
         currentUserName.textContent = user.fullName;
         currentUserStatus.textContent = user.bio || "Active";
@@ -60,6 +175,7 @@ async function loadUsers() {
 }
 
 loadUsers();
+loadConvesation();
 
 function createUserCard(user) {
     const button = document.createElement("button");
@@ -82,7 +198,7 @@ function createUserCard(user) {
     name.className = "font-semibold text-sm text-gray-900 truncate";
 
     const status = document.createElement("p");
-    status.textContent = user.bio || "Start a conversation";
+    status.textContent = user.bio || user.email //"Start a conversation";
     status.className = "text-xs text-gray-500 truncate";
 
     div.appendChild(name);
@@ -102,6 +218,7 @@ function createUserCard(user) {
         button.classList.add("bg-blue-100");
 
         updateChatHeader(selectedUser);
+        openConversation(selectedUser);
         
     });
 
@@ -113,3 +230,12 @@ function updateChatHeader(user) {
     chatUserStatus.textContent = "Active";
     chatUserAvatar.src =  user.avatarUrl || "assets/images/avatar.avif";
 }
+
+// Actualisatin automatique
+setInterval(() => {
+
+    if (activeConversationId) {
+        loadMessages(activeConversationId);
+    }
+
+}, 3000);
