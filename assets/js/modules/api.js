@@ -22,3 +22,17 @@ export async function postData(endpoint, data) {
     }
     
 }
+
+export async function getData(endpoint, token) {
+    const response = await fetch(API_URL + endpoint, {
+        method: "GET",
+        headers: {
+            "Content-type": "application/json",
+            "x-api-key": API_KEY,
+            "Authorization": `Bearer ${token}`
+        }
+    });
+
+    const result = await response.json();
+    return result;
+}

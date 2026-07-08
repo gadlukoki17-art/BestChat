@@ -1,4 +1,5 @@
 import { getToken, postData } from './modules/storage.js';
+import { getData } from './modules/api.js';
 
 const chatBtn = document.getElementById("chat-btn");
 const callBtn = document.getElementById("call-btn");
