@@ -1,4 +1,4 @@
-import { getToken, postData } from './modules/storage.js';
+import { getToken } from './modules/storage.js';
 import { getData } from './modules/api.js';
 
 const chatBtn = document.getElementById("chat-btn");
@@ -23,3 +23,11 @@ const token = getToken();
 if(!token) {
     window.location.href = "login.html";
 }
+
+async function loadCurrentUser() {
+    const result = await getDataData("/auth/me", token);
+
+    console.log("User connecté :", result);  
+}
+
+loadCurrentUser();
