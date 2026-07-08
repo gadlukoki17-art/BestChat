@@ -60,13 +60,18 @@ async function openConversation(user) {
     }
 }
 
-async function loadMessages(conversationId) {
+async function loadMessages(conversationId, forceScroll = false) {
     const result = await getData(
-         `/conversations/${conversationId}/messages`,
+        `/conversations/${conversationId}/messages`,
         token
     );
 
-    if(result.success) {
+    if (result.success) {
+        const isNearBottom =
+            messagesContainer.scrollHeight -
+            messagesContainer.scrollTop -
+            messagesContainer.clientHeight < 80;
+
         messagesContainer.innerHTML = "";
 
         result.data.messages.forEach((message) => {
@@ -74,9 +79,11 @@ async function loadMessages(conversationId) {
             messagesContainer.appendChild(messageBubble);
         });
 
-        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        if (forceScroll || isNearBottom) {
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
     }
-}
+} 
 
 function createMessageBubble(message) {
     const isMine = message.senderId === currentUserId;
@@ -87,9 +94,8 @@ function createMessageBubble(message) {
     const bubble = document.createElement("p");
     bubble.textContent = message.content;
     bubble.className = isMine
-        ? "max-w-[70%] rounded-t-xl rounded-bl-xl px-4 py-2 text-sm bg-blue-600 text-white" 
-        : "max-w-[70%] rounded-t-xl rounded-br-xl px-4 py-2 text-sm bg-gray-200 text-gray-900";
-
+        ? "max-w-[75%] rounded-t-xl rounded-bl-xl px-4 py-2 text-sm bg-blue-600 text-white" 
+        : "max-w-[75%] rounded-t-xl rounded-br-xl px-4 py-2 text-sm bg-gray-200 text-gray-900";
     const bubbleContainer = document.createElement("div");
     bubbleContainer.className = isMine
       ? "flex flex-col items-end"
@@ -135,7 +141,7 @@ messageForm.addEventListener("submit", async (event) => {
 
     if(result.success) {
         messageInput.value = "";
-        loadMessages(activeConversationId);
+        loadMessages(activeConversationId, true);
     }
 });
 
