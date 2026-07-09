@@ -94,8 +94,8 @@ function createMessageBubble(message) {
     const bubble = document.createElement("p");
     bubble.textContent = message.content;
     bubble.className = isMine
-        ? "w-fit max-w-[70%] rounded-2xl rounded-br-none px-4 py-2.5 text-sm text-left bg-blue-600 text-white shadow-sm break-words whitespace-pre-wrap" 
-    : "w-fit max-w-[70%] rounded-2xl rounded-bl-none px-4 py-2.5 text-sm text-left bg-gray-200 text-gray-900 shadow-sm break-words whitespace-pre-wrap";
+        ? "max-w-[70%] flex items-center justify-center rounded-t-xl rounded-bl-xl px-4 py-2 text-sm bg-blue-600 text-white" 
+        : "max-w-[70%] flex items-center justify-center rounded-t-xl rounded-br-xl px-4 py-2 text-sm bg-gray-200 text-gray-900";
     const bubbleContainer = document.createElement("div");
     bubbleContainer.className = isMine
       ? "flex flex-col items-end"
