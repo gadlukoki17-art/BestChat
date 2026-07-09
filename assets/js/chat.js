@@ -89,13 +89,14 @@ function createMessageBubble(message) {
     const isMine = message.senderId === currentUserId;
 
     const wrapper = document.createElement("div");
-    wrapper.className = isMine ? "flex justify-end" : "flex justify-start";
+    wrapper.className = isMine  ? "w-full flex justify-end"
+    : "w-full flex justify-start";
     
     const bubble = document.createElement("div");
     bubble.textContent = message.content;
     bubble.className = isMine
-         ? "max-w-[75%] min-w-[48px] break-words whitespace-pre-wrap rounded-t-xl rounded-bl-xl px-4 py-2 text-sm bg-blue-600 text-white"
-         : "max-w-[75%] min-w-[48px] break-words whitespace-pre-wrap rounded-t-xl rounded-br-xl px-4 py-2 text-sm bg-gray-200 text-gray-900";
+     ? "inline-block max-w-[420px] break-words whitespace-pre-wrap rounded-t-xl rounded-bl-xl px-4 py-2 text-sm bg-blue-600 text-white"
+     : "inline-block max-w-[420px] break-words whitespace-pre-wrap rounded-t-xl rounded-br-xl px-4 py-2 text-sm bg-gray-200 text-gray-900";
     const bubbleContainer = document.createElement("div");
     bubbleContainer.className = isMine
       ? "flex flex-col items-end"
