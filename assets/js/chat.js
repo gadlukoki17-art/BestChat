@@ -15,6 +15,8 @@ const chatUserName = document.getElementById("chat-user-name");
 const chatUserStatus = document.getElementById("chat-user-status");
 const searchConvesation = document.getElementById("search-convesation");
 const conversationList = document.getElementById("conversation-list");
+const iconEdit = document.getElementById("icon-edit");
+const iconBack = document.getElementById("icon-back");
 const callBtn2 = document.getElementById("call-btn2");
 const videoBtn = document.getElementById("video-btn");
 const menuBtn = document.getElementById("menu-btn");
@@ -295,12 +297,18 @@ function createConversationCard(conversation) {
 function showConversations() {
     listMode = "conversations";
     searchConvesation.placeholder = "Search conversations...";
+
+     iconBack.classList.add("hidden");
+    iconEdit.classList.remove("hidden");
     loadConversations();
 }
 
 function showUsers() {
     listMode = "users";
     searchConvesation.placeholder = "Search users...";
+
+    iconEdit.classList.add("hidden");
+    iconBack.classList.remove("hidden");
     loadUsers();
 }
 
