@@ -6,7 +6,7 @@ const callBtn = document.getElementById("call-btn");
 const personBtn = document.getElementById("person-btn");
 const uploatBtn = document.getElementById("uploat-btn");
 const settingBtn = document.getElementById("setting-btn");
-const editBtn = document.getElementById("edit-btn");
+const newChatBtn = document.getElementById("new-chat-btn");
 const currentUserAvatar = document.getElementById("current-user-avatar");
 const currentUserName = document.getElementById("current-user-name");
 const currentUserStatus = document.getElementById("current-user-status");
@@ -28,6 +28,7 @@ let selectedUser = null;
 let activeConversationId = null;
 let currentUserId = null;
 let conversations = [];
+let listMode = "conversations";
 
 async function openConversation(user) {
     const existingConversation = conversations.find((conversation) => {
@@ -39,6 +40,8 @@ async function openConversation(user) {
     if (existingConversation) {
         activeConversationId = existingConversation.id;
         loadMessages(activeConversationId, true);
+        showConversations();
+
         return;
     }
 
@@ -57,6 +60,7 @@ async function openConversation(user) {
 
         activeConversationId = conversation.id;
         loadMessages(activeConversationId, true);
+        showConversations();
     }
 }
 
@@ -207,14 +211,14 @@ function createUserCard(user) {
 
     const img = document.createElement("img");
     img.src = user.avatarUrl || "assets/images/avatar.avif";
-    img.alt = user.displayName;
+    img.alt = displayName;
     img.className = "w-11 h-11 rounded-full object-cover";
     
     const div = document.createElement("div");
     div.className = "flex-1 min-w-0";
 
     const name = document.createElement("h3");
-    name.textContent = user.fullName;
+    name.textContent = displayName;
     name.className = "font-semibold text-sm text-gray-900 truncate";
 
     const status = document.createElement("p");
@@ -288,6 +292,26 @@ function createConversationCard(conversation) {
     return button;
 }
 
+function showConversations() {
+    listMode = "conversations";
+    searchConvesation.placeholder = "Search conversations...";
+    loadConversations();
+}
+
+function showUsers() {
+    listMode = "users";
+    searchConvesation.placeholder = "Search users...";
+    loadUsers();
+}
+
+function toggleList() {
+    if(listMode === "conversations") {
+        showUsers();
+    } else {
+        showConversations();
+    }
+}
+
 // Actualisatin automatique
 setInterval(() => {
 
@@ -296,3 +320,6 @@ setInterval(() => {
     }
 
 }, 3000);
+
+//newChat button
+newChatBtn.addEventListener("click", showUsers);
