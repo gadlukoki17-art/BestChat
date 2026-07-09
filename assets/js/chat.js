@@ -13,7 +13,8 @@ const currentUserStatus = document.getElementById("current-user-status");
 const chatUserAvatar = document.getElementById("chat-user-avatar");
 const chatUserName = document.getElementById("chat-user-name");
 const chatUserStatus = document.getElementById("chat-user-status");
-const searchConvesation = document.getElementById("search-convesation");
+const searchConvesations = document.getElementById("search-convesation");
+const emptySearchMessage = document.getElementById("empty-search-message");
 const conversationList = document.getElementById("conversation-list");
 const iconEdit = document.getElementById("icon-edit");
 const iconBack = document.getElementById("icon-back");
@@ -161,6 +162,35 @@ messageForm.addEventListener("submit", async (event) => {
     }
 });
 
+searchConvesations.addEventListener("input", () => {
+    const query = searchConvesations.value.toLowerCase().trim();
+    const cards = conversationList.querySelectorAll("button");
+
+    let visibleCount = 0;
+
+    cards.forEach((card) => {
+        const text = card.textContent.toLowerCase();
+        const isVisible = text.includes(query);
+
+        card.classList.toggle("hidden", !isVisible);
+
+        if (isVisible) {
+            visibleCount++;
+        }
+    });
+
+    if (visibleCount === 0) {
+        emptySearchMessage.textContent =
+            listMode === "users"
+                ? "No users found"
+                : "No conversations found";
+
+        emptySearchMessage.classList.remove("hidden");
+    } else {
+        emptySearchMessage.classList.add("hidden");
+    }
+});
+
 const token = getToken();
 
 if(!token) {
@@ -296,7 +326,7 @@ function createConversationCard(conversation) {
 
 function showConversations() {
     listMode = "conversations";
-    searchConvesation.placeholder = "Search conversations...";
+    searchConvesations.placeholder = "Search conversations...";
 
      iconBack.classList.add("hidden");
     iconEdit.classList.remove("hidden");
@@ -305,7 +335,7 @@ function showConversations() {
 
 function showUsers() {
     listMode = "users";
-    searchConvesation.placeholder = "Search users...";
+    searchConvesations.placeholder = "Search users...";
 
     iconEdit.classList.add("hidden");
     iconBack.classList.remove("hidden");
