@@ -20,6 +20,9 @@ const iconBack = document.getElementById("icon-back");
 const emojiPicker = document.getElementById("emoji-picker");
 const emojiItems = document.querySelectorAll(".emoji-item");
 const emojiBtn = document.getElementById("emoji-btn");
+const conversationPanel = document.getElementById("conversation-panel");
+const chatPanel = document.getElementById("chat-panel");
+const mobileBackBtn = document.getElementById("mobile-back-btn");
 const callBtn = document.getElementById("call-btn");
 const personBtn = document.getElementById("person-btn");
 const callBtn2 = document.getElementById("call-btn2");
@@ -299,6 +302,7 @@ function createUserCard(user) {
 
         updateChatHeader(selectedUser);
         openConversation(selectedUser);
+        openMobileChat();
         
     });
 
@@ -364,6 +368,7 @@ function createConversationCard(conversation) {
 
         updateChatHeader(otherUser);
         loadMessages(activeConversationId, true);
+        openMobileChat();
     });
 
     return button;
@@ -395,7 +400,26 @@ function toggleList() {
     }
 }
 
-// Actualisatin automatique
+//mobiles functions
+function openMobileChat() {
+    if(window.innerWidth >= 768) return;
+
+    conversationPanel.classList.add("hidden");
+
+    chatPanel.classList.remove("hidden");
+    chatPanel.classList.add("flex");
+}
+
+function showMobileConversation() {
+    if(window.innerWidth >= 768) return;
+
+    chatPanel.classList.add("hidden");
+    chatPanel.classList.remove("hidden");
+
+    conversationPanel.classList.remove("hidden");
+}
+
+// Actualisation automatique
 setInterval(() => {
 
     if (activeConversationId) {
@@ -418,3 +442,6 @@ emojiItems.forEach((emojiButton) => {
         messageInput.focus();
     });
 });
+
+//back button
+mobileBackBtn.addEventListener("click", showMobileConversation);
