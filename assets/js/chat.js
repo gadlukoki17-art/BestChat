@@ -130,6 +130,14 @@ async function loadConversations() {
 
     if (result.success) {
         conversations = result.data.conversations;
+
+        //Sort conversations by recent activity (latest message on top)
+        conversations.sort((a, b) => {
+            const dateA = new Date(a.updatedAt);
+            const dateB = new Date(b.updatedAt);
+
+            return dateB - dateA;
+        });
         conversationList.innerHTML = "";
 
         conversations.forEach((conversation) => {
@@ -158,7 +166,8 @@ messageForm.addEventListener("submit", async (event) => {
 
     if(result.success) {
         messageInput.value = "";
-        loadMessages(activeConversationId, true);
+        await loadMessages(activeConversationId, true);
+        await loadConversations();
     }
 });
 
@@ -307,6 +316,27 @@ function createConversationCard(conversation) {
     const lastMessage = conversation.messages?.[conversation.messages.length - 1];
 
     const button = createUserCard(otherUser);
+    if (conversation.id === activeConversationId) {
+    button.classList.add("bg-blue-100");
+}
+
+    const name = button.querySelector("h3");
+
+    const lastMessageTime = document.createElement("span");
+    lastMessageTime.className = "text-[11px] text-gray-400 ml-auto shrink-0";
+    lastMessageTime.textContent = lastMessage
+        ? new Date(lastMessage.createdAt).toLocaleTimeString([], {
+            hour: "2-digit",
+            minute: "2-digit"
+        })
+        : "";
+
+    const nameRow = document.createElement("div");
+    nameRow.className = "flex items-center gap-2 w-full";
+
+    name.parentNode.insertBefore(nameRow, name);
+    nameRow.appendChild(name);
+    nameRow.appendChild(lastMessageTime);
 
     const status = button.querySelector("p");
     status.textContent = lastMessage
