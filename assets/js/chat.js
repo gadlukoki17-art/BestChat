@@ -23,6 +23,7 @@ const emojiBtn = document.getElementById("emoji-btn");
 const conversationPanel = document.getElementById("conversation-panel");
 const chatPanel = document.getElementById("chat-panel");
 const mobileBackBtn = document.getElementById("mobile-back-btn");
+const asidePanel = document.getElementById("aside-panel")
 const callBtn = document.getElementById("call-btn");
 const personBtn = document.getElementById("person-btn");
 const callBtn2 = document.getElementById("call-btn2");
@@ -405,6 +406,9 @@ function openMobileChat() {
     if(window.innerWidth >= 768) return;
 
     conversationPanel.classList.add("hidden");
+    asidePanel.classList.add("hidden");
+
+    
 
     chatPanel.classList.remove("hidden");
     chatPanel.classList.add("flex");
@@ -417,7 +421,9 @@ function showMobileConversation() {
     chatPanel.classList.remove("flex");
 
     conversationPanel.classList.remove("hidden");
+    asidePanel.classList.remove("hidden");
 }
+
 
 // Actualisation automatique
 setInterval(() => {
