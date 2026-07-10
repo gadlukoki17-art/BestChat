@@ -16,6 +16,7 @@ const chatUserStatus = document.getElementById("chat-user-status");
 const searchConvesations = document.getElementById("search-convesation");
 const emptySearchMessage = document.getElementById("empty-search-message");
 const conversationList = document.getElementById("conversation-list");
+const emptyConversations = document.getElementById("empty-conversations");
 const iconEdit = document.getElementById("icon-edit");
 const iconBack = document.getElementById("icon-back");
 const callBtn2 = document.getElementById("call-btn2");
@@ -74,6 +75,25 @@ async function loadMessages(conversationId, forceScroll = false) {
     );
 
     if (result.success) {
+        conversations = result.data.conversations;
+
+        // Next: Implement empty state and future unread badge
+        conversations.sort((a, b) => {
+        return new Date(b.updatedAt) - new Date(a.updatedAt);
+        });
+
+        conversationList.innerHTML = "";
+
+        let displayedCount = 0;
+
+       conversations.forEach((conversation) => {
+           const card = createConversationCard(conversation);
+
+           if (card) {
+                conversationList.appendChild(card);
+               displayedCount++;
+            }
+        });
         const isNearBottom =
             messagesContainer.scrollHeight -
             messagesContainer.scrollTop -
