@@ -28,11 +28,13 @@ const addBtn = document.getElementById("add-btn");
 const emojiBtn = document.getElementById("emoji-btn");
 const messageInput = document.getElementById("message-input");
 
+// All variable
 let selectedUser = null;
 let activeConversationId = null;
 let currentUserId = null;
 let conversations = [];
 let listMode = "conversations";
+let renderedMessageIds = new Set();
 
 async function openConversation(user) {
     const existingConversation = conversations.find((conversation) => {
@@ -68,47 +70,34 @@ async function openConversation(user) {
     }
 }
 
-async function loadMessages(conversationId, forceScroll = false) {
+async function loadMessages(conversationId, reset = false) {
     const result = await getData(
         `/conversations/${conversationId}/messages`,
         token
     );
 
-    if (result.success) {
-        conversations = result.data.conversations;
+    if (!result.success) {
+        return;
+    }
 
-        // Next: Implement empty state and future unread badge
-        conversations.sort((a, b) => {
-        return new Date(b.updatedAt) - new Date(a.updatedAt);
-        });
-
-        conversationList.innerHTML = "";
-
-        let displayedCount = 0;
-
-       conversations.forEach((conversation) => {
-           const card = createConversationCard(conversation);
-
-           if (card) {
-                conversationList.appendChild(card);
-               displayedCount++;
-            }
-        });
-        const isNearBottom =
-            messagesContainer.scrollHeight -
-            messagesContainer.scrollTop -
-            messagesContainer.clientHeight < 80;
-
+    if (reset) {
         messagesContainer.innerHTML = "";
+        renderedMessageIds.clear();
+    }
 
-        result.data.messages.forEach((message) => {
-            const messageBubble = createMessageBubble(message);
-            messagesContainer.appendChild(messageBubble);
-        });
-
-        if (forceScroll || isNearBottom) {
-            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    result.data.messages.forEach((message) => {
+        if (renderedMessageIds.has(message.id)) {
+            return;
         }
+
+        const messageBubble = createMessageBubble(message);
+
+        messagesContainer.appendChild(messageBubble);
+        renderedMessageIds.add(message.id);
+    });
+
+    if (reset) {
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
     }
 } 
 
@@ -170,7 +159,7 @@ async function loadConversations() {
         console.log("Conversations :", conversations);
     }
 }
-
+// messageform
 messageForm.addEventListener("submit", async (event) => {
     event.preventDefault();
 
