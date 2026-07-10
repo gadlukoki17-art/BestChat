@@ -414,7 +414,7 @@ function showMobileConversation() {
     if(window.innerWidth >= 768) return;
 
     chatPanel.classList.add("hidden");
-    chatPanel.classList.remove("hidden");
+    chatPanel.classList.remove("flex");
 
     conversationPanel.classList.remove("hidden");
 }
