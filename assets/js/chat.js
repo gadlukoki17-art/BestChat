@@ -1,5 +1,5 @@
 import { getToken, getTheme, saveTheme } from './modules/storage.js';
-import { getData, postData } from "./modules/api.js";
+import { getData, postData, deleteData } from "./modules/api.js";
 
 const chatBtn = document.getElementById("chat-btn");
 const uploatBtn = document.getElementById("uploat-btn");
@@ -33,6 +33,11 @@ const profilBtn = document.getElementById("profil-btn");
 const conversationMenu = document.getElementById("conversation-menu");
 const viewProfileBtn = document.getElementById("view-profile-btn");
 const deleteConversationBtn = document.getElementById("delete-conversation-btn");
+const confirmModal = document.getElementById("confirm-modal");
+const confirmTitle = document.getElementById("confirm-title");
+const confirmMessage = document.getElementById("confirm-message");
+const confirmCancel = document.getElementById("confirm-cancel");
+const confirmOk = document.getElementById("confirm-ok");
 const callBtn = document.getElementById("call-btn");
 const personBtn = document.getElementById("person-btn");
 const callBtn2 = document.getElementById("call-btn2");
@@ -50,6 +55,7 @@ let currentUserId = null;
 let conversations = [];
 let listMode = "conversations";
 let renderedMessageIds = new Set();
+let confirmAction = null;
 
 async function openConversation(user) {
     const existingConversation = conversations.find((conversation) => {
@@ -458,8 +464,29 @@ const translations = {
     }
 };
 
+//flex detecte panel
 function applyLanguage(language) {
     searchConvesations.placeholder = translations[language].search;
+}
+
+function openConfirmModal(title, message, callback) {
+
+    confirmTitle.textContent = title;
+    confirmMessage.textContent = message;
+
+    confirmAction = callback;
+
+    confirmModal.classList.remove("hidden");
+    confirmModal.classList.add("flex");
+}
+
+function closeConfirmModal() {
+
+    confirmModal.classList.add("hidden");
+    confirmModal.classList.remove("flex");
+
+    confirmAction = null;
+
 }
 
 //mode dark
@@ -568,4 +595,56 @@ menuBtn.addEventListener("click", (event) => {
 //convesation menu
 conversationMenu.addEventListener("click", () => {
     event.stopPropagation();
-})
+});
+
+//Delete ConversationBtn
+deleteConversationBtn.addEventListener("click", () => {
+
+    openConfirmModal(
+        "Delete conversation",
+        "Are you sure you want to delete this conversation? This action cannot be undone.",
+
+        async () => {
+
+            const result = await deleteData(
+                `/conversations/${activeConversationId}`,
+                token
+            );
+
+            if (!result.success) {
+                alert("Unable to delete conversation.");
+                return;
+            }
+
+            activeConversationId = null;
+            selectedUser = null;
+
+            messagesContainer.innerHTML = "";
+
+            chatUserName.textContent = "Select a conversation";
+            chatUserStatus.textContent = "No conversation selected";
+            chatUserAvatar.src = "assets/images/avatar.avif";
+
+            await loadConversations();
+
+            if (window.innerWidth < 768) {
+                showMobileConversation();
+            }
+
+        }
+
+    );
+
+});
+
+confirmCancel.addEventListener("click", closeConfirmModal);
+
+confirmOk.addEventListener("click", async () => {
+
+    if (confirmAction) {
+        await confirmAction();
+    }
+
+    closeConfirmModal();
+
+});

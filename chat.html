@@ -257,6 +257,21 @@
          </section>
     </main>
 
+    <div id="confirm-modal" class="fixed inset-0 hidden items-center justify-center bg-black/40 backdrop-blur-sm z-[999]">
+        <div class="w-[90%] max-w-md rounded-2xl bg-white dark:bg-gray-900 p-6 shadow-2xl">
+            <h2 id="confirm-title" class="text-xl font-semibold text-gray-900 dark:text-white"> Confirmation</h2>
+            <p id="confirm-message" class="mt-3 text-sm text-gray-500 dark:text-gray-400"></p>
+            <div class="mt-6 flex justify-end gap-3">
+                <button id="confirm-cancel" class="rounded-lg border px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800">
+                Cancel
+                </button>
+                <button id="confirm-ok" class="rounded-lg bg-red-600 text-white px-4 py-2 hover:bg-red-700">
+                Confirm
+                </button>
+            </div>
+        </div>
+    </div>
+
     <script type="module" src="assets/js/chat.js"></script>
 
 </body>
