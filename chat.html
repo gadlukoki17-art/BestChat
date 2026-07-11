@@ -21,8 +21,8 @@
 </head>
 <body class="h-full bg-slate-50 font-sans antialiased text-gray-900 dark:text-white dark:bg-black">
     <main class="flex w-full h-screen overflow-hidden bg-white dark:bg-black">
-        <aside id="aside-panel" class="dark:bg-black fixed bottom-0 left-0 right-0 h-16 z-50 flex md:static md:w-16 md:h-full md:flex-col items-center justify-around md:justify-start md:py-4 border-t md:border-t-0 md:border-r border-gray-200 dark:border-[#1E1F20] bg-white shrink-0 px-2">
-            <div class="flex md:flex-col w-full items-center justify-around md:justify-start md:gap-4 h-full">
+        <aside id="relative aside-panel" class="dark:bg-black fixed bottom-0 left-0 right-0 h-16 z-50 flex md:static md:w-16 md:h-full md:flex-col items-center justify-around md:justify-start md:py-4 border-t md:border-t-0 md:border-r border-gray-200 dark:border-[#1E1F20] bg-white shrink-0 px-2">
+            <div class="relative flex md:flex-col w-full items-center justify-around md:justify-start md:gap-4 h-full">
                 <div class="hidden md:flex p-2 text-center md:mb-3">
                     <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" class="w-8 h-8 text-[#2563EB]">
 	                    <path d="M0 0h24v24H0z" fill="none" />
@@ -63,7 +63,37 @@
                         </button>
                     </div>
                 </div>
-
+                <div id="setting-panel" class="bg-white border border-gray-200 shadow-lg hidden dark:bg-black">
+                    <button id="theme">
+                        <span class="">Theme</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+	                        <path d="M0 0h24v24H0z" fill="none" />
+	                        <g fill="none">
+		                        <path fill="currentColor" d="M2.75 12A9.25 9.25 0 0 0 12 21.25V2.75A9.25 9.25 0 0 0 2.75 12" />
+		                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 21.25a9.25 9.25 0 0 0 0-18.5m0 18.5a9.25 9.25 0 0 1 0-18.5m0 18.5V2.75" />
+	                        </g>
+                        </svg>
+                        <span id="theme-text">light</span>
+                    </button>
+                    <button id="language-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+	                        <path d="M0 0h24v24H0z" fill="none" />
+	                        <path fill="currentColor" d="M8.125 21.213q-1.825-.788-3.187-2.15t-2.15-3.188T2 11.988t.788-3.875t2.15-3.175t3.187-2.15T12.013 2t3.875.788t3.175 2.15t2.15 3.175t.787 3.875t-.787 3.887t-2.15 3.188t-3.175 2.15t-3.875.787t-3.888-.787M12 19.95q.65-.9 1.125-1.875T13.9 16h-3.8q.3 1.1.775 2.075T12 19.95m-2.6-.4q-.45-.825-.787-1.713T8.05 16H5.1q.725 1.25 1.813 2.175T9.4 19.55m5.2 0q1.4-.45 2.488-1.375T18.9 16h-2.95q-.225.95-.562 1.838T14.6 19.55M4.25 14h3.4q-.075-.5-.112-.987T7.5 12t.038-1.012T7.65 10h-3.4q-.125.5-.187.988T4 12t.063 1.013t.187.987m5.4 0h4.7q.075-.5.113-.987T14.5 12t-.038-1.012T14.35 10h-4.7q-.075.5-.112.988T9.5 12t.038 1.013t.112.987m6.7 0h3.4q.125-.5.188-.987T20 12t-.062-1.012T19.75 10h-3.4q.075.5.113.988T16.5 12t-.038 1.013t-.112.987m-.4-6h2.95q-.725-1.25-1.812-2.175T14.6 4.45q.45.825.788 1.713T15.95 8M10.1 8h3.8q-.3-1.1-.775-2.075T12 4.05q-.65.9-1.125 1.875T10.1 8m-5 0h2.95q.225-.95.563-1.838T9.4 4.45Q8 4.9 6.912 5.825T5.1 8" />
+                        </svg>
+                        <span>language</span>
+                        <span id="language-text">French</span>
+                    </button>
+                    <button id="profil-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+	                        <path d="M0 0h24v24H0z" fill="none" />
+	                        <g fill="currentColor" fill-rule="evenodd" clip-rule="evenodd">
+		                        <path d="M16 9a4 4 0 1 1-8 0a4 4 0 0 1 8 0m-2 0a2 2 0 1 1-4 0a2 2 0 0 1 4 0" />
+		                        <path d="M12 1C5.925 1 1 5.925 1 12s4.925 11 11 11s11-4.925 11-11S18.075 1 12 1M3 12c0 2.09.713 4.014 1.908 5.542A8.99 8.99 0 0 1 12.065 14a8.98 8.98 0 0 1 7.092 3.458A9 9 0 1 0 3 12m9 9a8.96 8.96 0 0 1-5.672-2.012A6.99 6.99 0 0 1 12.065 16a6.99 6.99 0 0 1 5.689 2.92A8.96 8.96 0 0 1 12 21" />
+	                        </g>
+                        </svg>
+                        <span>Profil</span>              
+                    </button>
+                </div>
                 <div class="hidden md:flex md:mt-auto ml-auto">
                     <button data-setting-btn class="hover:bg-gray-200 p-2 rounded-full transition-all duration-300 ease-out hover:dark:bg-[#1E1F20]">
                         <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" class="text-[#5C5F60] w-6 h-6 hover:text-gray-800 hover:dark:text-[#5C5F60]">
@@ -129,7 +159,7 @@
         </section>
 
         <!-- zone de chat -->
-         <section id="chat-panel" class="w-full h-full min-h-0 hidden md:flex flex-1 flex-col scrollbar-hide">
+         <section id="relative chat-panel" class="w-full h-full min-h-0 hidden md:flex flex-1 flex-col scrollbar-hide">
             <header class="flex items-center justify-center gap-2 w-full px-4 py-2 border-b border-gray-200 dark:border-[#1E1F20]">
                 <button id="mobile-back-btn" type="button" class="md:hidden p-2 rounded-full hover:bg-gray-100">
                     <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 1024 1024">
@@ -164,7 +194,13 @@
 	                        <path fill="currentColor" d="M7 4c0-.14 0-.209.008-.267a.85.85 0 0 1 .725-.725C7.79 3 7.86 3 8 3s.209 0 .267.008a.85.85 0 0 1 .725.725C9 3.79 9 3.86 9 4s0 .209-.008.267a.85.85 0 0 1-.725.725C8.21 5 8.14 5 8 5s-.209 0-.267-.008a.85.85 0 0 1-.725-.725C7 4.21 7 4.14 7 4m0 4c0-.14 0-.209.008-.267a.85.85 0 0 1 .725-.725C7.79 7 7.86 7 8 7s.209 0 .267.008a.85.85 0 0 1 .725.725C9 7.79 9 7.86 9 8s0 .209-.008.267a.85.85 0 0 1-.725.725C8.21 9 8.14 9 8 9s-.209 0-.267-.008a.85.85 0 0 1-.725-.725C7 8.21 7 8.14 7 8m0 4c0-.139 0-.209.008-.267a.85.85 0 0 1 .724-.724c.059-.008.128-.008.267-.008s.21 0 .267.008a.85.85 0 0 1 .724.724c.008.058.008.128.008.267s0 .209-.008.267a.85.85 0 0 1-.724.724c-.058.008-.128.008-.267.008s-.209 0-.267-.008a.85.85 0 0 1-.724-.724C7 12.209 7 12.139 7 12" />
                         </svg>
                     </button>
-                </div>   
+                </div> 
+                <div id="conversation-menu" class="hidden absolute top-14 right-4 z-[100] w-56 rounded-xl border border-gray-200 bg-white dark:bg-gray-900 dark:border-gray-700 shadow-xl overflow-hidden">
+                    <button id="view-profile-btn" class="w-full px-4 py-3 text-left hover:bg-gray-100 dark:hover:bg-gray-800">👤 View profile
+                    </button>
+                    <button id="delete-conversation-btn" class="w-full px-4 py-3 text-left text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20"> 🗑 Delete conversation
+                    </button>
+                </div>  
             </header>
 
             <!-- Message -->

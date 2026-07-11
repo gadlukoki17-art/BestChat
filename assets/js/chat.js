@@ -24,6 +24,15 @@ const conversationPanel = document.getElementById("conversation-panel");
 const chatPanel = document.getElementById("chat-panel");
 const mobileBackBtn = document.getElementById("mobile-back-btn");
 const asidePanel = document.getElementById("aside-panel")
+const settingPanel = document.getElementById("setting-panel")
+const themeBtn = document.getElementById("theme")
+const themeText = document.getElementById("theme-text");
+const languageBtn = document.getElementById("language-btn");
+const languageText = document.getElementById("language-text");
+const profilBtn = document.getElementById("profil-btn");
+const conversationMenu = document.getElementById("conversation-menu");
+const viewProfileBtn = document.getElementById("view-profile-btn");
+const deleteConversationBtn = document.getElementById("delete-conversation-btn");
 const callBtn = document.getElementById("call-btn");
 const personBtn = document.getElementById("person-btn");
 const callBtn2 = document.getElementById("call-btn2");
@@ -32,7 +41,6 @@ const menuBtn = document.getElementById("menu-btn");
 const messagesContainer = document.getElementById("messages-container");
 const messageForm = document.getElementById("message-form");
 const addBtn = document.getElementById("add-btn");
-
 const messageInput = document.getElementById("message-input");
 
 // All variable
@@ -42,9 +50,6 @@ let currentUserId = null;
 let conversations = [];
 let listMode = "conversations";
 let renderedMessageIds = new Set();
-
-const savedTheme = localStorage.getItem("bestchat_theme") || "dark";
-applyTheme(savedTheme);
 
 async function openConversation(user) {
     const existingConversation = conversations.find((conversation) => {
@@ -364,7 +369,7 @@ function createConversationCard(conversation) {
     const status = button.querySelector("p");
     status.textContent = lastMessage
         ? lastMessage.content
-        : "Engage une conversation";
+        : "Start a conversation";
 
     button.addEventListener("click", () => {
         selectedUser = otherUser;
@@ -427,11 +432,54 @@ function showMobileConversation() {
     asidePanel.classList.remove("hidden");
 }
 
-//mode dark
-function applyTheme(theme) {
-    document.documentElement.classList.toggle("dark", theme === "dark");
+//language
+function updateLanguageText() {
+    const language = localStorage.getItem("bestchat_language") || "en";
+
+    languageText.textContent =
+        language === "en" ? "English" : "Français";
 }
 
+updateLanguageText();
+
+const translations = {
+    en: {
+        search: "Search conversations...",
+        active: "Active",
+        engage: "Start a conversation",
+        settings: "Settings"
+    },
+
+    fr: {
+        search: "Rechercher une conversation...",
+        active: "Actif",
+        engage: "Commencer une conversation",
+        settings: "Paramètres"
+    }
+};
+
+function applyLanguage(language) {
+    searchConvesations.placeholder = translations[language].search;
+}
+
+//mode dark
+function updateThemeText() {
+    const isDark = document.documentElement.classList.contains("dark");
+
+    themeText.textContent = isDark ? "Dark" : "Light";
+}
+
+updateThemeText();
+
+function applyTheme(theme) {
+    document.documentElement.classList.toggle(
+        "dark",
+        theme === "dark"
+    );
+}
+
+const savedTheme = localStorage.getItem("bestchat_theme") || "dark";
+applyTheme(savedTheme);
 
 // Actualisation automatique
 setInterval(() => {
@@ -441,6 +489,11 @@ setInterval(() => {
     }
 
 }, 3000);
+
+document.addEventListener("click", () => {
+    settingPanel.classList.add("hidden");
+    conversationMenu.classList.add("hidden");
+});
 
 //newChat button
 newChatBtn.addEventListener("click", showUsers);
@@ -461,15 +514,58 @@ emojiItems.forEach((emojiButton) => {
 mobileBackBtn.addEventListener("click", showMobileConversation);
 
 //setting btn
-settingBtn.forEach(btn => {
-    btn.addEventListener("click", (e) => {
-        e.preventDefault();
-
-        const isDark = document.documentElement.classList.contains("dark");
-        const newTheme = isDark ? "light" : "dark";
-
-        applyTheme(newTheme);
-        localStorage.setItem("bestchat_theme", newTheme);
+settingBtn.forEach((btn) => {
+    btn.addEventListener("click", (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        settingPanel.classList.toggle("hidden")
     });
-    
 });
+
+// setting panel
+settingPanel.addEventListener("click", (event) => {
+    event.stopPropagation();
+})
+
+//themeBtn
+themeBtn.addEventListener("click", () => {
+    const isDark = document.documentElement.classList.contains("dark");
+
+    const newTheme = isDark ? "light" : "dark";
+
+    applyTheme(newTheme);
+    saveTheme(newTheme);
+
+    updateThemeText();
+});
+
+//languageBtn
+languageBtn.addEventListener("click", () => {
+
+    const language = localStorage.getItem("bestchat_language") || "en";
+
+    const newLanguage = language === "en" ? "fr" : "en";
+
+    localStorage.setItem("bestchat_language", newLanguage);
+
+    updateLanguageText();
+    applyLanguage(newLanguage);
+
+});
+
+//Profil
+profilBtn.addEventListener("click", () => {
+    window.location.href = "profil.html";
+});  
+
+//menu button 
+menuBtn.addEventListener("click", (event) => {
+    event.stopPropagation();
+
+    conversationMenu.classList.toggle("hidden");
+});
+
+//convesation menu
+conversationMenu.addEventListener("click", () => {
+    event.stopPropagation();
+})
