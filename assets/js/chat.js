@@ -1,9 +1,9 @@
-import { getToken } from './modules/storage.js';
+import { getToken, getTheme, saveTheme } from './modules/storage.js';
 import { getData, postData } from "./modules/api.js";
 
 const chatBtn = document.getElementById("chat-btn");
 const uploatBtn = document.getElementById("uploat-btn");
-const settingBtn = document.getElementById("setting-btn");
+const settingBtn = document.querySelectorAll("[data-setting-btn]");
 const newChatBtn = document.getElementById("new-chat-btn");
 const currentUserAvatar = document.getElementById("current-user-avatar");
 const currentUserName = document.getElementById("current-user-name");
@@ -42,6 +42,9 @@ let currentUserId = null;
 let conversations = [];
 let listMode = "conversations";
 let renderedMessageIds = new Set();
+
+const savedTheme = localStorage.getItem("bestchat_theme") || "dark";
+applyTheme(savedTheme);
 
 async function openConversation(user) {
     const existingConversation = conversations.find((conversation) => {
@@ -118,8 +121,8 @@ function createMessageBubble(message) {
     const bubble = document.createElement("div");
     bubble.textContent = message.content;
     bubble.className = isMine
-     ? "inline-block max-w-[420px] break-words whitespace-pre-wrap rounded-t-xl rounded-bl-xl px-4 py-2 text-sm bg-blue-600 text-white"
-     : "inline-block max-w-[420px] break-words whitespace-pre-wrap rounded-t-xl rounded-br-xl px-4 py-2 text-sm bg-gray-200 text-gray-900";
+     ? "inline-block md:max-w-[38rem] max-w-[18rem] break-words whitespace-pre-wrap rounded-t-xl rounded-bl-xl px-4 py-2 text-sm bg-blue-600 text-white"
+     : "inline-block md:max-w-[38rem] max-w-[18rem] break-words whitespace-pre-wrap rounded-t-xl rounded-br-xl px-4 py-2 text-sm bg-gray-200 text-gray-900 dark:bg-[#1E1F20] dark:text-white";
     const bubbleContainer = document.createElement("div");
     bubbleContainer.className = isMine
       ? "flex flex-col items-end"
@@ -267,7 +270,7 @@ function createUserCard(user) {
     button.dataset.userId = user.id;
 
     button.className = 
-     "w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-100 transition text-left";
+     "w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-100 transition text-left hover:dark:bg-[#1E1F20]";
 
     const img = document.createElement("img");
     img.src = user.avatarUrl || "assets/images/avatar.avif";
@@ -279,7 +282,7 @@ function createUserCard(user) {
 
     const name = document.createElement("h3");
     name.textContent = displayName;
-    name.className = "font-semibold text-sm text-gray-900 truncate";
+    name.className = "font-semibold text-sm text-gray-900 truncate dark:text-white";
 
     const status = document.createElement("p");
     status.textContent = user.bio || user.email //"Start a conversation";
@@ -343,7 +346,7 @@ function createConversationCard(conversation) {
     const name = button.querySelector("h3");
 
     const lastMessageTime = document.createElement("span");
-    lastMessageTime.className = "text-[11px] text-gray-400 ml-auto shrink-0";
+    lastMessageTime.className = "text-[11px] text-gray-400 ml-auto shrink-0 dark:text-gray-300";
     lastMessageTime.textContent = lastMessage
         ? new Date(lastMessage.createdAt).toLocaleTimeString([], {
             hour: "2-digit",
@@ -424,6 +427,11 @@ function showMobileConversation() {
     asidePanel.classList.remove("hidden");
 }
 
+//mode dark
+function applyTheme(theme) {
+    document.documentElement.classList.toggle("dark", theme === "dark");
+}
+
 
 // Actualisation automatique
 setInterval(() => {
@@ -451,3 +459,17 @@ emojiItems.forEach((emojiButton) => {
 
 //back button
 mobileBackBtn.addEventListener("click", showMobileConversation);
+
+//setting btn
+settingBtn.forEach(btn => {
+    btn.addEventListener("click", (e) => {
+        e.preventDefault();
+
+        const isDark = document.documentElement.classList.contains("dark");
+        const newTheme = isDark ? "light" : "dark";
+
+        applyTheme(newTheme);
+        localStorage.setItem("bestchat_theme", newTheme);
+    });
+    
+});

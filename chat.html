@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,9 +19,9 @@
     </style>
     <title>Chat</title>
 </head>
-<body class="h-full bg-slate-50 font-sans antialiased text-gray-900 dark:text-white">
-    <main class="flex w-full h-screen overflow-hidden bg-white">
-        <aside id="aside-panel" class="fixed bottom-0 left-0 right-0 h-16 z-50 flex md:static md:w-16 md:h-full md:flex-col items-center justify-around md:justify-start md:py-4 border-t md:border-t-0 md:border-r border-gray-200 bg-white shrink-0 px-2">
+<body class="h-full bg-slate-50 font-sans antialiased text-gray-900 dark:text-white dark:bg-black">
+    <main class="flex w-full h-screen overflow-hidden bg-white dark:bg-black">
+        <aside id="aside-panel" class="dark:bg-black fixed bottom-0 left-0 right-0 h-16 z-50 flex md:static md:w-16 md:h-full md:flex-col items-center justify-around md:justify-start md:py-4 border-t md:border-t-0 md:border-r border-gray-200 dark:border-[#1E1F20] bg-white shrink-0 px-2">
             <div class="flex md:flex-col w-full items-center justify-around md:justify-start md:gap-4 h-full">
                 <div class="hidden md:flex p-2 text-center md:mb-3">
                     <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" class="w-8 h-8 text-[#2563EB]">
@@ -30,29 +30,43 @@
                     </svg>
                 </div>
                 <div class="flex w-full md:w-auto md:flex-col items-center justify-around md:justify-start gap-4">
-                    <button id="chat-btn" class="p-2 bg-blue-50 rounded-xl hover:bg-[#2563EB] transition-all duration-300 ease-in-out">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" class="w-6 h-6 text-[#5C5F60] hover:text-white ">
-	                        <path d="M0 0h24v24H0z" fill="none" />
-	                        <path fill="currentColor" d="m6 18l-2.3 2.3q-.475.475-1.088.213T2 19.575V4q0-.825.588-1.412T4 2h16q.825 0 1.413.588T22 4v12q0 .825-.587 1.413T20 18zm1-4h6q.425 0 .713-.288T14 13t-.288-.712T13 12H7q-.425 0-.712.288T6 13t.288.713T7 14m0-3h10q.425 0 .713-.288T18 10t-.288-.712T17 9H7q-.425 0-.712.288T6 10t.288.713T7 11m0-3h10q.425 0 .713-.288T18 7t-.288-.712T17 6H7q-.425 0-.712.288T6 7t.288.713T7 8" />
-                        </svg>
-                    </button>
-                    <button id="call-btn" class="p-2 bg-blue-50 rounded-xl hover:bg-[#2563EB] transition-all duration-300 ease-in-out">
-                        <i class="fa-solid fa-phone w-6 h-6 hover:text-white text-[#5C5F60]"></i>
-                    </button>
-                    <button id="person-btn" class="p-2 bg-blue-50 rounded-xl hover:bg-[#2563EB] transition-all duration-300 ease-in-out">
-                        <i class="fa-solid fa-user w-6 h-6 hover:text-white text-[#5C5F60]"></i>                
-                    </button>
-                    <button id="uploat-btn" class="p-2 bg-blue-50 rounded-xl hover:bg-[#2563EB] transition-all duration-300 ease-in-out">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" class="w-6 h-6 hover:text-white text-[#5C5F60]">
-	                        <path d="M0 0h24v24H0z" fill="none" />
-	                        <path fill="currentColor" d="M4 20q-.825 0-1.412-.587T2 18V6q0-.825.588-1.412T4 4h5v2H4v12h16V6h-5V4h5q.825 0 1.413.588T22 6v12q0 .825-.587 1.413T20 20zm8-4.6l-5-5L8.4 9l2.6 2.6V4h2v7.6L15.6 9l1.4 1.4z" />
-                        </svg>
-                    </button>
+                    <div class="font-bold flex flex-col justify-center items-center rounded-xl transition-all duration-300 ease-in-out">
+                        <button id="chat-btn" class="md:p-2 rounded-3xl md:rounded-xl md:bg-[#2563EB] hover:bg-[#1E1F20] px-2 py-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" class="hidden md:flex w-6 h-6 text-white">
+	                            <path d="M0 0h24v24H0z" fill="none" />
+	                            <path fill="currentColor" d="m6 18l-2.3 2.3q-.475.475-1.088.213T2 19.575V4q0-.825.588-1.412T4 2h16q.825 0 1.413.588T22 4v12q0 .825-.587 1.413T20 18zm1-4h6q.425 0 .713-.288T14 13t-.288-.712T13 12H7q-.425 0-.712.288T6 13t.288.713T7 14m0-3h10q.425 0 .713-.288T18 10t-.288-.712T17 9H7q-.425 0-.712.288T6 10t.288.713T7 11m0-3h10q.425 0 .713-.288T18 7t-.288-.712T17 6H7q-.425 0-.712.288T6 7t.288.713T7 8" />
+                            </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" class="flex md:hidden w-6 h-6 md:text-white text-[#2563EB]">
+	                            <path d="M0 0h24v24H0z" fill="none" />
+	                            <path fill="currentColor" d="M12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10a9.96 9.96 0 0 1-4.644-1.142l-4.29 1.117a.85.85 0 0 1-1.037-1.036l1.116-4.289A9.96 9.96 0 0 1 2 12C2 6.477 6.477 2 12 2m1.252 11H8.75l-.102.007a.75.75 0 0 0 0 1.486l.102.007h4.502l.101-.007a.75.75 0 0 0 0-1.486zm1.998-3.5h-6.5l-.102.007a.75.75 0 0 0 0 1.486L8.75 11h6.5l.102-.007a.75.75 0 0 0 0-1.486z" />
+                            </svg>
+                        </button>
+                        <span class="flex md:hidden text-xs text-[#2563EB]">Chats</span>
+                    </div>
+                    <div class="hover:font-bold md:hover:bg-[#2563EB] hover:text-[#2563EB] flex flex-col justify-center items-center rounded-xl transition-all duration-300 ease-in-out">    
+                        <button id="call-btn" class="md:p-2 rounded-3xl md:rounded-xl hover:bg-[#1E1F20]  transition-all duration-300 ease-in-out px-2 py-1">
+                            <i class="fa-solid fa-phone w-6 h-6 hover:text-[#2563EB] text-[#5C5F60] font-semibolds"></i>
+                        </button>
+                        <span class="flex md:hidden text-xs">Calls</span>
+                    </div> 
+                    <div class="hover:font-bold flex flex-col justify-center items-center rounded-xl transition-all duration-300 ease-in-out">   
+                        <button id="person-btn" class="p-2 bg-blue-50 rounded-xl hover:bg-[#2563EB] transition-all duration-300 ease-in-out dark:bg-[#1E1F20]">
+                            <i class="fa-solid fa-user w-6 h-6 hover:text-white text-[#5C5F60]"></i>                
+                        </button>
+                    </div>
+                    <div class="font-bold flex flex-col justify-center items-center rounded-xl transition-all duration-300 ease-in-out">
+                        <button data-setting-btn class="p-2 bg-blue-50 rounded-xl hover:bg-[#2563EB] transition-all duration-300 ease-in-out dark:bg-[#1E1F20]">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" class="w-6 h-6 hover:text-white text-[#5C5F60]">
+	                            <path d="M0 0h24v24H0z" fill="none" />
+	                            <path fill="currentColor" d="M14.82 1H9.18l-.647 3.237a8.5 8.5 0 0 0-1.52.88l-3.13-1.059l-2.819 4.884l2.481 2.18a8.6 8.6 0 0 0 0 1.756l-2.481 2.18l2.82 4.884l3.129-1.058c.472.342.98.638 1.52.879L9.18 23h5.64l.647-3.237a8.5 8.5 0 0 0 1.52-.88l3.13 1.059l2.82-4.884l-2.482-2.18a8.6 8.6 0 0 0 0-1.756l2.481-2.18l-2.82-4.884l-3.128 1.058a8.5 8.5 0 0 0-1.52-.879zM12 16a4 4 0 1 1 0-8a4 4 0 0 1 0 8" />
+                            </svg>
+                        </button>
+                    </div>
                 </div>
 
                 <div class="hidden md:flex md:mt-auto ml-auto">
-                    <button id="setting-btn" class="hover:bg-gray-200 p-2 rounded-full transition-all duration-300 ease-out">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" class="text-[#5C5F60] w-6 h-6 hover:text-gray-800">
+                    <button data-setting-btn class="hover:bg-gray-200 p-2 rounded-full transition-all duration-300 ease-out hover:dark:bg-[#1E1F20]">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" class="text-[#5C5F60] w-6 h-6 hover:text-gray-800 hover:dark:text-[#5C5F60]">
 	                        <path d="M0 0h24v24H0z" fill="none" />
 	                        <path fill="currentColor" d="M19.9 12.66a1 1 0 0 1 0-1.32l1.28-1.44a1 1 0 0 0 .12-1.17l-2-3.46a1 1 0 0 0-1.07-.48l-1.88.38a1 1 0 0 1-1.15-.66l-.61-1.83a1 1 0 0 0-.95-.68h-4a1 1 0 0 0-1 .68l-.56 1.83a1 1 0 0 1-1.15.66L5 4.79a1 1 0 0 0-1 .48L2 8.73a1 1 0 0 0 .1 1.17l1.27 1.44a1 1 0 0 1 0 1.32L2.1 14.1a1 1 0 0 0-.1 1.17l2 3.46a1 1 0 0 0 1.07.48l1.88-.38a1 1 0 0 1 1.15.66l.61 1.83a1 1 0 0 0 1 .68h4a1 1 0 0 0 .95-.68l.61-1.83a1 1 0 0 1 1.15-.66l1.88.38a1 1 0 0 0 1.07-.48l2-3.46a1 1 0 0 0-.12-1.17ZM18.41 14l.8.9l-1.28 2.22l-1.18-.24a3 3 0 0 0-3.45 2L12.92 20h-2.56L10 18.86a3 3 0 0 0-3.45-2l-1.18.24l-1.3-2.21l.8-.9a3 3 0 0 0 0-4l-.8-.9l1.28-2.2l1.18.24a3 3 0 0 0 3.45-2L10.36 4h2.56l.38 1.14a3 3 0 0 0 3.45 2l1.18-.24l1.28 2.22l-.8.9a3 3 0 0 0 0 3.98m-6.77-6a4 4 0 1 0 4 4a4 4 0 0 0-4-4m0 6a2 2 0 1 1 2-2a2 2 0 0 1-2 2" />
                         </svg>
@@ -63,9 +77,9 @@
         </aside>
 
         <!-- conversation -->
-        <section  id="conversation-panel" class="w-full flex flex-col md:w-80 md:border-r border-gray-200">
+        <section  id="conversation-panel" class="w-full flex flex-col md:w-80 md:border-r border-gray-200 dark:border-[#1E1F20]">
             <header>
-                <div class="flex items-center gap-2 p-4 border-b border-gray-200">
+                <div class="flex items-center gap-2 p-4 border-b border-gray-200 dark:border-[#1E1F20]">
                     <div>
                         <img id="current-user-avatar" src="assets/images/avatar.avif" alt="my profil" class="w-10 h-10 rounded-full object-cover">
                     </div>
@@ -94,7 +108,7 @@
                     </div>        
                 </div>
 
-                <div class="flex justify-center gap-1 bg-gray-100 rounded-xl py-[0.15rem] mt-4 m-2">
+                <div class="flex justify-center gap-1 bg-gray-100 rounded-xl py-[0.15rem] mt-4 m-2 dark:bg-[#1E1F20]">
                     <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" class="w-7 h-7 pl-2">
 	                    <path d="M0 0h24v24H0z" fill="none" />
 	                    <path fill="currentColor" d="m19.485 20.154l-6.262-6.262q-.75.639-1.725.989t-1.96.35q-2.398 0-4.064-1.666Q3.808 11.898 3.808 9.5t1.666-4.064t4.064-1.667t4.065 1.667T15.269 9.5q0 1.042-.369 2.017t-.97 1.668l6.262 6.261zM9.539 14.23q1.99 0 3.36-1.37t1.37-3.361t-1.37-3.36t-3.36-1.37t-3.361 1.37t-1.37 3.36t1.37 3.36t3.36 1.37" />
@@ -116,7 +130,7 @@
 
         <!-- zone de chat -->
          <section id="chat-panel" class="w-full h-full min-h-0 hidden md:flex flex-1 flex-col scrollbar-hide">
-            <header class="flex items-center justify-center gap-2 w-full px-4 py-2 border-b border-gray-200">
+            <header class="flex items-center justify-center gap-2 w-full px-4 py-2 border-b border-gray-200 dark:border-[#1E1F20]">
                 <button id="mobile-back-btn" type="button" class="md:hidden p-2 rounded-full hover:bg-gray-100">
                     <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 1024 1024">
 	                    <path d="M0 0h1024v1024H0z" fill="none" />
@@ -157,7 +171,7 @@
             <div id="messages-container" class="min-h-0 flex-1 overflow-y-auto p-4 space-y-3"></div>
 
             <!-- Input message -->
-            <form id="message-form" class="relative shrink-0 bg-white border-t border-gray-200 p-4 flex items-center gap-3">
+            <form id="message-form" class="relative shrink-0 bg-white border-t border-gray-200 p-4 flex items-center gap-3 dark:bg-black dark:border-[#1E1F20]">
                 <div class="flex items-center justify-center gap-2">
                     <button id="add-btn">
                         <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" class="w-5 h-5 text-[#5C5F60] hover:text-gray-800 rounded-full">
@@ -196,7 +210,7 @@
                         <button type="button" class="emoji-item">💯</button>
                     </div>
                 </div>
-                <input id="message-input" type="text" placeholder="Type a message..." class="flex-1 rounded-xl bg-gray-100 px-4 py-2 text-sm outline-none">
+                <input id="message-input" type="text" placeholder="Type a message..." class="flex-1 rounded-xl bg-gray-100 px-4 py-2 text-sm outline-none dark:bg-[#1E1F20]">
                 <button class="bg-blue-600 text-white p-2 rounded-full">
                     <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" class="w-6 h-6 text-white">
 	                    <path d="M0 0h24v24H0z" fill="none" />
