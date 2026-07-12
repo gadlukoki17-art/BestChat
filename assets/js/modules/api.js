@@ -50,3 +50,22 @@ export async function deleteData(endpoint, token = null) {
 
     return await response.json();
 }
+
+export async function patchData(endpoint, data, token = null) {
+    const headers = {
+        "Content-Type": "application/json",
+        "x-api-key": API_KEY
+    };
+
+    if (token) {
+        headers.Authorization = `Bearer ${token}`;
+    }
+
+    const response = await fetch(API_URL + endpoint, {
+        method: "PATCH",
+        headers,
+        body: JSON.stringify(data)
+    });
+
+    return await response.json();
+}

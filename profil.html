@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kadea Chat - Profil</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style type="text/tailwindcss">
+        @variant dark (&:where(.dark, .dark *));
+    </style>
+</head>
+<body class="bg-[#F4F6FA] h-screen w-full antialiased text-[#1F2937]">
+
+    <div class="flex flex-col md:flex-row h-screen w-full overflow-hidden bg-[#F4F6FA]">
+
+        <aside id="relative aside-panel" class="dark:bg-black fixed bottom-0 left-0 right-0 h-16 z-50 flex md:static md:w-16 md:h-full md:flex-col items-center justify-around md:justify-start md:py-4 border-t md:border-t-0 md:border-r border-gray-200 dark:border-[#1E1F20] bg-white shrink-0 px-2">
+            <div class="relative flex md:flex-col w-full items-center justify-around md:justify-start md:gap-4 h-full">
+                <div class="hidden md:flex p-2 text-center md:mb-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" class="w-8 h-8 text-[#2563EB]">
+	                    <path d="M0 0h24v24H0z" fill="none" />
+	                    <path fill="none" stroke="currentColor" stroke-width="1.5" d="M3 20.29V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H7.961a2 2 0 0 0-1.561.75l-2.331 2.914A.6.6 0 0 1 3 20.29Z" />
+                    </svg>
+                </div>
+                <div class="flex w-full md:w-auto md:flex-col items-center justify-around md:justify-start gap-4">
+                    <div class="font-bold flex flex-col justify-center items-center rounded-xl transition-all duration-300 ease-in-out">
+                        <button id="chat-btn" class="md:p-2 rounded-3xl md:rounded-xl md:bg-[#2563EB] hover:bg-[#1E1F20] px-2 py-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" class="hidden md:flex w-6 h-6 text-white">
+	                            <path d="M0 0h24v24H0z" fill="none" />
+	                            <path fill="currentColor" d="m6 18l-2.3 2.3q-.475.475-1.088.213T2 19.575V4q0-.825.588-1.412T4 2h16q.825 0 1.413.588T22 4v12q0 .825-.587 1.413T20 18zm1-4h6q.425 0 .713-.288T14 13t-.288-.712T13 12H7q-.425 0-.712.288T6 13t.288.713T7 14m0-3h10q.425 0 .713-.288T18 10t-.288-.712T17 9H7q-.425 0-.712.288T6 10t.288.713T7 11m0-3h10q.425 0 .713-.288T18 7t-.288-.712T17 6H7q-.425 0-.712.288T6 7t.288.713T7 8" />
+                            </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" class="flex md:hidden w-6 h-6 md:text-white text-[#2563EB]">
+	                            <path d="M0 0h24v24H0z" fill="none" />
+	                            <path fill="currentColor" d="M12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10a9.96 9.96 0 0 1-4.644-1.142l-4.29 1.117a.85.85 0 0 1-1.037-1.036l1.116-4.289A9.96 9.96 0 0 1 2 12C2 6.477 6.477 2 12 2m1.252 11H8.75l-.102.007a.75.75 0 0 0 0 1.486l.102.007h4.502l.101-.007a.75.75 0 0 0 0-1.486zm1.998-3.5h-6.5l-.102.007a.75.75 0 0 0 0 1.486L8.75 11h6.5l.102-.007a.75.75 0 0 0 0-1.486z" />
+                            </svg>
+                        </button>
+                        <span class="flex md:hidden text-xs text-[#2563EB]">Chats</span>
+                    </div>
+                    <div class="hover:font-bold md:hover:bg-[#2563EB] hover:text-[#2563EB] flex flex-col justify-center items-center rounded-xl transition-all duration-300 ease-in-out">    
+                        <button id="call-btn" class="md:p-2 rounded-3xl md:rounded-xl hover:bg-[#1E1F20]  transition-all duration-300 ease-in-out px-2 py-1">
+                            <i class="fa-solid fa-phone w-6 h-6 hover:text-[#2563EB] text-[#5C5F60] font-semibolds"></i>
+                        </button>
+                        <span class="flex md:hidden text-xs">Calls</span>
+                    </div> 
+                    <div class="hover:font-bold flex flex-col justify-center items-center rounded-xl transition-all duration-300 ease-in-out">   
+                        <button id="person-btn" class="p-2 bg-blue-50 rounded-xl hover:bg-[#2563EB] transition-all duration-300 ease-in-out dark:bg-[#1E1F20]">
+                            <i class="fa-solid fa-user w-6 h-6 hover:text-white text-[#5C5F60]"></i>                
+                        </button>
+                    </div>
+                    <div class="font-bold flex flex-col justify-center items-center rounded-xl transition-all duration-300 ease-in-out">
+                        <button data-setting-btn class="p-2 bg-blue-50 rounded-xl hover:bg-[#2563EB] transition-all duration-300 ease-in-out dark:bg-[#1E1F20]">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" class="w-6 h-6 hover:text-white text-[#5C5F60]">
+	                            <path d="M0 0h24v24H0z" fill="none" />
+	                            <path fill="currentColor" d="M14.82 1H9.18l-.647 3.237a8.5 8.5 0 0 0-1.52.88l-3.13-1.059l-2.819 4.884l2.481 2.18a8.6 8.6 0 0 0 0 1.756l-2.481 2.18l2.82 4.884l3.129-1.058c.472.342.98.638 1.52.879L9.18 23h5.64l.647-3.237a8.5 8.5 0 0 0 1.52-.88l3.13 1.059l2.82-4.884l-2.482-2.18a8.6 8.6 0 0 0 0-1.756l2.481-2.18l-2.82-4.884l-3.128 1.058a8.5 8.5 0 0 0-1.52-.879zM12 16a4 4 0 1 1 0-8a4 4 0 0 1 0 8" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                <div id="setting-panel" class="bg-white border border-gray-200 shadow-lg hidden dark:bg-black">
+                    <button id="theme">
+                        <span class="">Theme</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+	                        <path d="M0 0h24v24H0z" fill="none" />
+	                        <g fill="none">
+		                        <path fill="currentColor" d="M2.75 12A9.25 9.25 0 0 0 12 21.25V2.75A9.25 9.25 0 0 0 2.75 12" />
+		                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 21.25a9.25 9.25 0 0 0 0-18.5m0 18.5a9.25 9.25 0 0 1 0-18.5m0 18.5V2.75" />
+	                        </g>
+                        </svg>
+                        <span id="theme-text">light</span>
+                    </button>
+                    <button id="language-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+	                        <path d="M0 0h24v24H0z" fill="none" />
+	                        <path fill="currentColor" d="M8.125 21.213q-1.825-.788-3.187-2.15t-2.15-3.188T2 11.988t.788-3.875t2.15-3.175t3.187-2.15T12.013 2t3.875.788t3.175 2.15t2.15 3.175t.787 3.875t-.787 3.887t-2.15 3.188t-3.175 2.15t-3.875.787t-3.888-.787M12 19.95q.65-.9 1.125-1.875T13.9 16h-3.8q.3 1.1.775 2.075T12 19.95m-2.6-.4q-.45-.825-.787-1.713T8.05 16H5.1q.725 1.25 1.813 2.175T9.4 19.55m5.2 0q1.4-.45 2.488-1.375T18.9 16h-2.95q-.225.95-.562 1.838T14.6 19.55M4.25 14h3.4q-.075-.5-.112-.987T7.5 12t.038-1.012T7.65 10h-3.4q-.125.5-.187.988T4 12t.063 1.013t.187.987m5.4 0h4.7q.075-.5.113-.987T14.5 12t-.038-1.012T14.35 10h-4.7q-.075.5-.112.988T9.5 12t.038 1.013t.112.987m6.7 0h3.4q.125-.5.188-.987T20 12t-.062-1.012T19.75 10h-3.4q.075.5.113.988T16.5 12t-.038 1.013t-.112.987m-.4-6h2.95q-.725-1.25-1.812-2.175T14.6 4.45q.45.825.788 1.713T15.95 8M10.1 8h3.8q-.3-1.1-.775-2.075T12 4.05q-.65.9-1.125 1.875T10.1 8m-5 0h2.95q.225-.95.563-1.838T9.4 4.45Q8 4.9 6.912 5.825T5.1 8" />
+                        </svg>
+                        <span>language</span>
+                        <span id="language-text">French</span>
+                    </button>
+                    <button id="profil-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+	                        <path d="M0 0h24v24H0z" fill="none" />
+	                        <g fill="currentColor" fill-rule="evenodd" clip-rule="evenodd">
+		                        <path d="M16 9a4 4 0 1 1-8 0a4 4 0 0 1 8 0m-2 0a2 2 0 1 1-4 0a2 2 0 0 1 4 0" />
+		                        <path d="M12 1C5.925 1 1 5.925 1 12s4.925 11 11 11s11-4.925 11-11S18.075 1 12 1M3 12c0 2.09.713 4.014 1.908 5.542A8.99 8.99 0 0 1 12.065 14a8.98 8.98 0 0 1 7.092 3.458A9 9 0 1 0 3 12m9 9a8.96 8.96 0 0 1-5.672-2.012A6.99 6.99 0 0 1 12.065 16a6.99 6.99 0 0 1 5.689 2.92A8.96 8.96 0 0 1 12 21" />
+	                        </g>
+                        </svg>
+                        <span>Profil</span>              
+                    </button>
+                </div>
+                <div class="hidden md:flex md:mt-auto ml-auto">
+                    <button data-setting-btn class="hover:bg-gray-200 p-2 rounded-full transition-all duration-300 ease-out hover:dark:bg-[#1E1F20]">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" class="text-[#5C5F60] w-6 h-6 hover:text-gray-800 hover:dark:text-[#5C5F60]">
+	                        <path d="M0 0h24v24H0z" fill="none" />
+	                        <path fill="currentColor" d="M19.9 12.66a1 1 0 0 1 0-1.32l1.28-1.44a1 1 0 0 0 .12-1.17l-2-3.46a1 1 0 0 0-1.07-.48l-1.88.38a1 1 0 0 1-1.15-.66l-.61-1.83a1 1 0 0 0-.95-.68h-4a1 1 0 0 0-1 .68l-.56 1.83a1 1 0 0 1-1.15.66L5 4.79a1 1 0 0 0-1 .48L2 8.73a1 1 0 0 0 .1 1.17l1.27 1.44a1 1 0 0 1 0 1.32L2.1 14.1a1 1 0 0 0-.1 1.17l2 3.46a1 1 0 0 0 1.07.48l1.88-.38a1 1 0 0 1 1.15.66l.61 1.83a1 1 0 0 0 1 .68h4a1 1 0 0 0 .95-.68l.61-1.83a1 1 0 0 1 1.15-.66l1.88.38a1 1 0 0 0 1.07-.48l2-3.46a1 1 0 0 0-.12-1.17ZM18.41 14l.8.9l-1.28 2.22l-1.18-.24a3 3 0 0 0-3.45 2L12.92 20h-2.56L10 18.86a3 3 0 0 0-3.45-2l-1.18.24l-1.3-2.21l.8-.9a3 3 0 0 0 0-4l-.8-.9l1.28-2.2l1.18.24a3 3 0 0 0 3.45-2L10.36 4h2.56l.38 1.14a3 3 0 0 0 3.45 2l1.18-.24l1.28 2.22l-.8.9a3 3 0 0 0 0 3.98m-6.77-6a4 4 0 1 0 4 4a4 4 0 0 0-4-4m0 6a2 2 0 1 1 2-2a2 2 0 0 1-2 2" />
+                        </svg>
+                    </button>
+                </div> 
+
+            </div>
+        </aside>
+        <div id="setting-panel" class="bg-white border border-gray-200 shadow-lg hidden dark:bg-black">
+                    <button id="theme">
+                        <span class="">Theme</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+	                        <path d="M0 0h24v24H0z" fill="none" />
+	                        <g fill="none">
+		                        <path fill="currentColor" d="M2.75 12A9.25 9.25 0 0 0 12 21.25V2.75A9.25 9.25 0 0 0 2.75 12" />
+		                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 21.25a9.25 9.25 0 0 0 0-18.5m0 18.5a9.25 9.25 0 0 1 0-18.5m0 18.5V2.75" />
+	                        </g>
+                        </svg>
+                        <span id="theme-text">light</span>
+                    </button>
+                    <button id="language-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+	                        <path d="M0 0h24v24H0z" fill="none" />
+	                        <path fill="currentColor" d="M8.125 21.213q-1.825-.788-3.187-2.15t-2.15-3.188T2 11.988t.788-3.875t2.15-3.175t3.187-2.15T12.013 2t3.875.788t3.175 2.15t2.15 3.175t.787 3.875t-.787 3.887t-2.15 3.188t-3.175 2.15t-3.875.787t-3.888-.787M12 19.95q.65-.9 1.125-1.875T13.9 16h-3.8q.3 1.1.775 2.075T12 19.95m-2.6-.4q-.45-.825-.787-1.713T8.05 16H5.1q.725 1.25 1.813 2.175T9.4 19.55m5.2 0q1.4-.45 2.488-1.375T18.9 16h-2.95q-.225.95-.562 1.838T14.6 19.55M4.25 14h3.4q-.075-.5-.112-.987T7.5 12t.038-1.012T7.65 10h-3.4q-.125.5-.187.988T4 12t.063 1.013t.187.987m5.4 0h4.7q.075-.5.113-.987T14.5 12t-.038-1.012T14.35 10h-4.7q-.075.5-.112.988T9.5 12t.038 1.013t.112.987m6.7 0h3.4q.125-.5.188-.987T20 12t-.062-1.012T19.75 10h-3.4q.075.5.113.988T16.5 12t-.038 1.013t-.112.987m-.4-6h2.95q-.725-1.25-1.812-2.175T14.6 4.45q.45.825.788 1.713T15.95 8M10.1 8h3.8q-.3-1.1-.775-2.075T12 4.05q-.65.9-1.125 1.875T10.1 8m-5 0h2.95q.225-.95.563-1.838T9.4 4.45Q8 4.9 6.912 5.825T5.1 8" />
+                        </svg>
+                        <span>language</span>
+                        <span id="language-text">French</span>
+                    </button>
+                    <button id="profil-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+	                        <path d="M0 0h24v24H0z" fill="none" />
+	                        <g fill="currentColor" fill-rule="evenodd" clip-rule="evenodd">
+		                        <path d="M16 9a4 4 0 1 1-8 0a4 4 0 0 1 8 0m-2 0a2 2 0 1 1-4 0a2 2 0 0 1 4 0" />
+		                        <path d="M12 1C5.925 1 1 5.925 1 12s4.925 11 11 11s11-4.925 11-11S18.075 1 12 1M3 12c0 2.09.713 4.014 1.908 5.542A8.99 8.99 0 0 1 12.065 14a8.98 8.98 0 0 1 7.092 3.458A9 9 0 1 0 3 12m9 9a8.96 8.96 0 0 1-5.672-2.012A6.99 6.99 0 0 1 12.065 16a6.99 6.99 0 0 1 5.689 2.92A8.96 8.96 0 0 1 12 21" />
+	                        </g>
+                        </svg>
+                        <span>Profil</span>              
+                    </button>
+                </div>
+
+
+        <main class="flex-1 flex flex-col h-full overflow-hidden">
+            
+            <header class="h-16 border-b border-gray-200 bg-white flex items-center justify-between px-6 shrink-0">
+                <h1 class="text-xl font-bold text-blue-700 tracking-wide">Kadea Chat</h1>
+                
+                <div class="flex items-center gap-2 text-[#5C5F60]">
+                    <button id="call-btn2" class="hover:bg-gray-200 p-2 rounded-full transition-all duration-300 ease-out">
+                       <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" class="w-6 h-6 text-[#5C5F60]">
+	                        <path d="M0 0h24v24H0z" fill="none" />
+	                        <path fill="currentColor" d="M15 8v8H5V8zm1-2H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-3.5l4 4v-11l-4 4V7a1 1 0 0 0-1-1" />
+                        </svg>
+                    </button>
+                    <button id="video-btn" class="hover:bg-gray-200 p-2 rounded-full transition-all duration-300 ease-out">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" class="w-6 h-6 text-[#5C5F60]">
+	                        <path d="M0 0h24v24H0z" fill="none" />
+	                        <path fill="currentColor" d="M6.54 5c.06.89.21 1.76.45 2.59l-1.2 1.2c-.41-1.2-.67-2.47-.76-3.79zm9.86 12.02c.85.24 1.72.39 2.6.45v1.49c-1.32-.09-2.59-.35-3.8-.75zM7.5 3H4c-.55 0-1 .45-1 1c0 9.39 7.61 17 17 17c.55 0 1-.45 1-1v-3.49c0-.55-.45-1-1-1c-1.24 0-2.45-.2-3.57-.57a.8.8 0 0 0-.31-.05c-.26 0-.51.1-.71.29l-2.2 2.2a15.15 15.15 0 0 1-6.59-6.59l2.2-2.2c.28-.28.36-.67.25-1.02A11.4 11.4 0 0 1 8.5 4c0-.55-.45-1-1-1" />
+                        </svg>
+                    </button>
+                    <button id="menu-btn" class="hover:bg-gray-200 p-2 rounded-full transition-all duration-300 ease-out">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 16 16" class="w-6 h-6 text-[#5C5F60]">
+	                        <path d="M0 0h16v16H0z" fill="none" />
+	                        <path fill="currentColor" d="M7 4c0-.14 0-.209.008-.267a.85.85 0 0 1 .725-.725C7.79 3 7.86 3 8 3s.209 0 .267.008a.85.85 0 0 1 .725.725C9 3.79 9 3.86 9 4s0 .209-.008.267a.85.85 0 0 1-.725.725C8.21 5 8.14 5 8 5s-.209 0-.267-.008a.85.85 0 0 1-.725-.725C7 4.21 7 4.14 7 4m0 4c0-.14 0-.209.008-.267a.85.85 0 0 1 .725-.725C7.79 7 7.86 7 8 7s.209 0 .267.008a.85.85 0 0 1 .725.725C9 7.79 9 7.86 9 8s0 .209-.008.267a.85.85 0 0 1-.725.725C8.21 9 8.14 9 8 9s-.209 0-.267-.008a.85.85 0 0 1-.725-.725C7 8.21 7 8.14 7 8m0 4c0-.139 0-.209.008-.267a.85.85 0 0 1 .724-.724c.059-.008.128-.008.267-.008s.21 0 .267.008a.85.85 0 0 1 .724.724c.008.058.008.128.008.267s0 .209-.008.267a.85.85 0 0 1-.724.724c-.058.008-.128.008-.267.008s-.209 0-.267-.008a.85.85 0 0 1-.724-.724C7 12.209 7 12.139 7 12" />
+                        </svg>
+                    </button>
+                </div>
+            </header>
+
+            <div class="flex-1 overflow-y-auto px-4 py-8 md:p-12 flex flex-col items-center">
+                
+                <div class="flex flex-col items-center text-center mb-8">
+                    <div class="relative w-28 h-28 mb-4">
+                        <img id="profile-avatar" src="https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_640.png"  alt="Alex Rivera" 
+                             class="w-full h-full object-cover rounded-full border-4 border-white shadow-sm">
+                        <span class="absolute bottom-1 right-2 block h-5 w-5 rounded-full ring-4 ring-white bg-[#22C55E]"></span>
+                    </div>
+                    
+                    <h2 id="profile-name" class="text-2xl font-bold text-gray-900"></h2>
+                    <p id="profile-email" class="text-sm text-gray-500 font-medium"></p>
+                    
+                    <span class="mt-3 inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-blue-50 text-blue-600 border border-blue-100">
+                        <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M6.267 3.455a.75.75 0 00-.708.522L4.547 7.22H1.75a.75.75 0 000 1.5h3.197a.75.75 0 00.708-.522L6.67 5.23l2.215 6.467a.75.75 0 001.433-.048l2.008-6.023 1.144 2.862A.75.75 0 0014.17 9H18.25a.75.75 0 000-1.5h-3.63l-1.512-3.78a.75.75 0 00-1.41.042l-1.921 5.763L7.7 3.483a.75.75 0 00-.033-.028z" clip-rule="evenodd"></path></svg>
+                        Member since October 2023
+                    </span>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-4xl mb-10">
+                    
+                    <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm flex flex-col justify-between">
+                        <div>
+                            <div class="flex justify-between items-center mb-6">
+                                <h3 class="font-bold text-gray-900 text-base">Account Details</h3>
+                                <i class="fa-regular fa-address-card text-gray-400 text-lg"></i>
+                            </div>
+                            
+                            <div class="space-y-4">
+                                <div>
+                                    <p class="text-[11px] font-bold text-gray-400 uppercase tracking-wider">Username</p>
+                                    <p class="text-sm font-medium text-gray-800 mt-0.5">arivera_chat</p>
+                                </div>
+                                <div>
+                                    <p class="text-[11px] font-bold text-gray-400 uppercase tracking-wider">Phone</p>
+                                    <p id="profile-phone" class="text-sm font-medium text-gray-800 mt-0.5">No phone number</p>
+                                </div>
+                                <div>
+                                    <p class="text-[11px] font-bold text-gray-400 uppercase tracking-wider">Language</p>
+                                    <p class="text-sm font-medium text-gray-800 mt-0.5">English (US)</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
+                        <div class="flex justify-between items-center mb-6">
+                            <h3 class="font-bold text-gray-900 text-base">Privacy & Security</h3>
+                            <i class="fa-solid fa-lock text-gray-400 text-base"></i>
+                        </div>
+                        
+                        <div class="space-y-2">
+                            <div class="flex items-center justify-between py-2.5 border-b border-gray-50">
+                                <div class="flex items-center gap-3">
+                                    <i class="fa-regular fa-shield text-gray-500 w-5 text-center"></i>
+                                    <span class="text-sm font-medium text-gray-700">Two-Factor Auth</span>
+                                </div>
+                                <span class="text-xs font-bold text-blue-600 bg-blue-50 px-2.5 py-0.5 rounded-full">Enabled</span>
+                            </div>
+                            <button class="w-full flex items-center justify-between py-2.5 border-b border-gray-50 hover:bg-gray-50 rounded-lg px-1 transition-colors group">
+                                <div class="flex items-center gap-3">
+                                    <i class="fa-regular fa-eye text-gray-500 w-5 text-center"></i>
+                                    <span class="text-sm font-medium text-gray-700">Active Sessions</span>
+                                </div>
+                                <i class="fa-solid fa-chevron-right text-gray-400 text-xs transition-transform group-hover:translate-x-0.5"></i>
+                            </button>
+                            <button class="w-full flex items-center justify-between py-2.5 hover:bg-gray-50 rounded-lg px-1 transition-colors group">
+                                <div class="flex items-center gap-3">
+                                    <i class="fa-regular fa-bell text-gray-500 w-5 text-center"></i>
+                                    <span class="text-sm font-medium text-gray-700">Alert Preferences</span>
+                                </div>
+                                <i class="fa-solid fa-chevron-right text-gray-400 text-xs transition-transform group-hover:translate-x-0.5"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="flex flex-col gap-4 w-full max-w-md items-center">
+                    <p id="profile-message" class="hidden text-center text-sm"></p>
+                    <button id="edit-profile-btn" class="w-full bg-[#2563EB] hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-xl shadow-md shadow-blue-200 transition-all duration-300 flex items-center justify-center gap-2 text-sm active:scale-[0.98]">
+                        <i class="fa-solid fa-pen text-xs"></i>
+                         <span id="edit-profile-text">Edit Profile</span>
+                    </button>
+                    
+                    <button class="w-full bg-[#E5E7EB] hover:bg-gray-300 text-gray-700 font-semibold py-3 px-4 rounded-xl transition-all duration-300 flex items-center justify-center gap-2 text-sm active:scale-[0.98]">
+                        <i class="fa-solid fa-key text-xs"></i>
+                        Change Password
+                    </button>
+                    
+                    <button id="logout-btn" class="mt-4 flex items-center gap-2 text-red-600 font-bold text-sm hover:text-red-700 hover:underline transition-all">
+                        <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                        Logout
+                    </button>
+                </div>
+
+            </div>
+        </main>
+    </div>
+    <div id="edit-profile-modal" class="hidden fixed inset-0 z-[999] items-center justify-center bg-black/40 backdrop-blur-sm">
+        <div class="w-[90%] max-w-md rounded-2xl bg-white p-6 shadow-2xl dark:bg-gray-900">
+            <h2 class="text-xl font-semibold text-gray-900 dark:text-white">Edit Profile</h2>
+            <form id="edit-profile-form" class="mt-6 space-y-4">
+                <div>
+                    <label for="edit-fullname" class="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">
+                        Full name
+                    </label>
+                    <input id="edit-fullname" type="text" required class="w-full rounded-xl border border-gray-200 px-4 py-2 outline-none focus:border-blue-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white">
+                </div>
+                <div>
+                    <label for="edit-email" class="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">
+                        Email
+                    </label>
+                    <input id="edit-email" type="email" required class="w-full rounded-xl border border-gray-200 px-4 py-2 outline-none focus:border-blue-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white">
+                </div>
+                <div>
+                    <label for="edit-phone" class="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">
+                        Phone number
+                    </label>
+                    <input id="edit-phone" type="tel" placeholder="+243 ..." class="w-full rounded-xl border border-gray-200 px-4 py-2 outline-none focus:border-blue-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white">
+                    <p class="mt-1 text-xs text-gray-400">
+                        This number is saved only on this device.
+                    </p>
+                </div>
+                <div>
+                    <label for="edit-bio" class="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">
+                        Bio
+                    </label>
+                   <textarea id="edit-bio" rows="4" placeholder="Write something about yourself..."
+                        class="w-full resize-none rounded-xl border border-gray-200 px-4 py-2 outline-none focus:border-blue-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white">
+                    </textarea>
+                </div>
+               <p id="edit-profile-message" class="hidden text-sm"></p>
+               <div class="flex justify-end gap-3 pt-2">
+                    <button id="cancel-edit-profile" type="button" class="rounded-lg border border-gray-200 px-4 py-2 hover:bg-gray-100 dark:border-gray-700 dark:hover:bg-gray-800">
+                        Cancel
+                    </button>
+                    <button id="save-profile-btn" type="submit" class="rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-60">
+                        Save
+                    </button>
+                </div>
+           </form>
+    </div>
+</div>
+
+    <script type="module" src="assets/js/profil.js"></script>
+
+</body>
+</html>
