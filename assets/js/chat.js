@@ -158,6 +158,8 @@ function createMessageBubble(message) {
 async function loadConversations() {
     const result = await getData("/conversations", token);
 
+    if (listMode !== "conversations") return;
+
     if (result.success) {
         conversations = result.data.conversations;
 
@@ -255,6 +257,8 @@ async function loadCurrentUser() {
 
 async function loadUsers() {
     const result = await getData("/users", token);
+
+    if (listMode !== "users") return;
     
     if(result.success) {
         conversationList.innerHTML = "";
@@ -318,7 +322,10 @@ function createUserCard(user) {
         updateChatHeader(selectedUser);
         openConversation(selectedUser);
         openMobileChat();
-        
+
+        if(window.innerWidth < 768) {
+           openMobileChat();
+        }        
     });
 
     return button;
@@ -351,7 +358,7 @@ function createConversationCard(conversation) {
 
     const button = createUserCard(otherUser);
     if (conversation.id === activeConversationId) {
-    button.classList.add("bg-blue-100");
+    button.classList.add("bg-blue-100", "dark:bg-[#1E1F20]");
 }
 
     const name = button.querySelector("h3");
@@ -389,25 +396,43 @@ function createConversationCard(conversation) {
     return button;
 }
 
+//Add a new user function
 function showConversations() {
     listMode = "conversations";
+
+    searchConvesations.value = "";
     searchConvesations.placeholder = "Search conversations...";
 
-     iconBack.classList.add("hidden");
+    emptySearchMessage.classList.add("hidden");
+
+    iconBack.classList.add("hidden");
     iconEdit.classList.remove("hidden");
     loadConversations();
 }
 
 function showUsers() {
     listMode = "users";
+    searchConvesations.value = "";
     searchConvesations.placeholder = "Search users...";
+
+    emptySearchMessage.classList.add("hidden");  
 
     iconEdit.classList.add("hidden");
     iconBack.classList.remove("hidden");
+
+    if (window.innerWidth < 768) {
+        chatPanel.classList.add("hidden");
+        chatPanel.classList.remove("flex");
+
+        conversationPanel.classList.remove("hidden");
+        asidePanel.classList.remove("hidden");
+    }
+
     loadUsers();
 }
 
 function toggleList() {
+
     if(listMode === "conversations") {
         showUsers();
     } else {
@@ -437,6 +462,7 @@ function showMobileConversation() {
     conversationPanel.classList.remove("hidden");
     asidePanel.classList.remove("hidden");
 }
+
 
 //language
 function updateLanguageText() {
@@ -523,7 +549,7 @@ document.addEventListener("click", () => {
 });
 
 //newChat button
-newChatBtn.addEventListener("click", showUsers);
+newChatBtn.addEventListener("click", toggleList);
 
 //emoji button
 emojiBtn.addEventListener("click", () => {
@@ -538,7 +564,7 @@ emojiItems.forEach((emojiButton) => {
 });
 
 //back button
-mobileBackBtn.addEventListener("click", showMobileConversation);
+mobileBackBtn.addEventListener("click", showMobileConversation)
 
 //setting btn
 settingBtn.forEach((btn) => {
