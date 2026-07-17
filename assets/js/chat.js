@@ -277,30 +277,35 @@ async function initChat() {
 
 initChat();
 
-function createUserCard(user) {
+function createUserCard(user, clickCallback = null) {
     const button = document.createElement("button");
 
-    const displayName = user.fullName || user.email || user.name || "Unknown user";
+    const displayName =
+        user.fullName ||
+        user.email ||
+        user.name ||
+        "Unknown user";
 
     button.dataset.userId = user.id;
 
-    button.className = 
-     "w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-100 transition text-left hover:dark:bg-[#1E1F20]";
+    button.className =
+        "w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-100 transition text-left hover:dark:bg-[#1E1F20]";
 
     const img = document.createElement("img");
     img.src = user.avatarUrl || "assets/images/avatar.avif";
     img.alt = displayName;
     img.className = "w-11 h-11 rounded-full object-cover";
-    
+
     const div = document.createElement("div");
     div.className = "flex-1 min-w-0";
 
     const name = document.createElement("h3");
     name.textContent = displayName;
-    name.className = "font-semibold text-sm text-gray-900 truncate dark:text-white";
+    name.className =
+        "font-semibold text-sm text-gray-900 truncate dark:text-white";
 
     const status = document.createElement("p");
-    status.textContent = user.bio || user.email //"Start a conversation";
+    status.textContent = user.bio || user.email || "Start a conversation";
     status.className = "text-xs text-gray-500 truncate";
 
     div.appendChild(name);
@@ -309,23 +314,33 @@ function createUserCard(user) {
     button.appendChild(img);
     button.appendChild(div);
 
-    button.addEventListener("click", () => {
+    button.addEventListener("click", async () => {
+        document
+            .querySelectorAll("#conversation-list button")
+            .forEach((btn) => {
+                btn.classList.remove(
+                    "bg-blue-100",
+                    "dark:bg-[#1E1F20]"
+                );
+            });
 
+        button.classList.add(
+            "bg-blue-100",
+            "dark:bg-[#1E1F20]"
+        );
+
+        if (clickCallback) {
+            await clickCallback();
+            return;
+        }
+
+        // Ce comportement est seulement utilisé pour la liste des utilisateurs.
         selectedUser = user;
 
-        document.querySelectorAll("#conversation-list button").forEach((btn) => {
-            btn.classList.remove("bg-blue-100");
-        })
-
-        button.classList.add("bg-blue-100");
-
-        updateChatHeader(selectedUser);
-        openConversation(selectedUser);
+        updateChatHeader(user);
         openMobileChat();
 
-        if(window.innerWidth < 768) {
-           openMobileChat();
-        }        
+        await openConversation(user);
     });
 
     return button;
@@ -384,13 +399,13 @@ function createConversationCard(conversation) {
         ? lastMessage.content
         : "Start a conversation";
 
-    button.addEventListener("click", () => {
-        selectedUser = otherUser;
-        activeConversationId = conversation.id;
+    button.addEventListener("click", async () => {
+       activeConversationId = conversation.id;
 
-        updateChatHeader(otherUser);
-        loadMessages(activeConversationId, true);
-        openMobileChat();
+       updateChatHeader(otherUser);
+       openMobileChat();
+
+       await loadMessages(conversation.id);
     });
 
     return button;
@@ -451,6 +466,8 @@ function openMobileChat() {
 
     chatPanel.classList.remove("hidden");
     chatPanel.classList.add("flex");
+
+    chatPanel.style.display = "flex";
 }
 
 function showMobileConversation() {
@@ -458,6 +475,7 @@ function showMobileConversation() {
 
     chatPanel.classList.add("hidden");
     chatPanel.classList.remove("flex");
+    chatPanel.style.display = "";
 
     conversationPanel.classList.remove("hidden");
     asidePanel.classList.remove("hidden");
