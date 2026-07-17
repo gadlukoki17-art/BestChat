@@ -86,6 +86,12 @@ async function openConversation(user) {
         conversations.push(conversation);
 
         activeConversationId = conversation.id;
+
+        localStorage.setItem(
+            "kadea_last_conversation",
+            conversation.id
+        );
+
         loadMessages(activeConversationId, true);
         showConversations();
     }
@@ -136,8 +142,26 @@ function createMessageBubble(message) {
      : "inline-block md:max-w-[38rem] max-w-[18rem] break-words whitespace-pre-wrap rounded-t-xl rounded-br-xl px-4 py-2 text-sm bg-gray-200 text-gray-900 dark:bg-[#1E1F20] dark:text-white";
     const bubbleContainer = document.createElement("div");
     bubbleContainer.className = isMine
-      ? "flex flex-col items-end"
-      : "flex flex-col items-start";
+    ? "flex flex-col items-end"
+    : "flex flex-col items-start";
+
+    const actions = document.createElement("div");
+    actions.className = "mt-1 flex justify-end";
+
+    if(isMine) {
+        const deleteButton = document.createElement("button");
+
+        deleteButton.type = "button";
+        deleteButton.textContent = "supprimer";
+        deleteButton.className =
+            "text-xs text-red-500 hover:text-red-700";
+
+        deleteButton.addEventListener("click", () => {
+            deleteMessage(message.id);
+        });    
+
+        actions.appendChild(deleteButton);
+    }
 
     const time = document.createElement("span");
     time.className = "text-[11px] text-gray-400 mt-1";
@@ -150,9 +174,36 @@ function createMessageBubble(message) {
 
     bubbleContainer.appendChild(bubble);
     bubbleContainer.appendChild(time);
+    if(isMine) {
+        bubbleContainer.appendChild(actions);
+    }
 
     wrapper.appendChild(bubbleContainer);
     return wrapper;
+}
+
+//delete conversation function
+async function deleteMessage(messageId) {
+    openConfirmModal(
+        "Delete message",
+        "Are you sure you want to delete this message?",
+        async () => {
+            const result = await deleteData(
+                `/messages/${messageId}`,
+                token
+            );
+
+            if (!result.success) {
+                showToast("Unable to delete the message.");
+                return;
+            }
+
+            showToast("Message deleted.");
+
+            await loadMessages(activeConversationId, true);
+            await loadConversations();
+        }
+    );
 }
 
 async function loadConversations() {
@@ -162,6 +213,21 @@ async function loadConversations() {
 
     if (result.success) {
         conversations = result.data.conversations;
+
+        //Last message
+        const savedConversationId = localStorage.getItem(
+           "kadea_last_conversation"
+        );
+
+        if (!activeConversationId && savedConversationId) {
+            const savedConversation = conversations.find(
+               (conversation) => conversation.id === savedConversationId
+            );
+
+            if (savedConversation) {
+                activeConversationId = savedConversation.id;
+            }
+        }
 
         //Sort conversations by recent activity (latest message on top)
         conversations.sort((a, b) => {
@@ -178,6 +244,32 @@ async function loadConversations() {
                 conversationList.appendChild(card);
             }
         });
+
+        if (activeConversationId) {
+            const activeConversation = conversations.find(
+                (conversation) =>
+                conversation.id === activeConversationId
+            );
+
+            if (activeConversation) {
+                const otherParticipant =
+                activeConversation.participants.find(
+                    (participant) =>
+                        participant.userId !== currentUserId
+                );
+
+                if (otherParticipant?.user) {
+                    const otherUser = otherParticipant.user;
+
+                    updateChatHeader(otherUser);
+
+                    await loadMessages(
+                       activeConversationId,
+                        true
+                    );
+                }
+            }
+        }
 
         console.log("Conversations :", conversations);
     }
@@ -396,11 +488,16 @@ function createConversationCard(conversation) {
 
     const status = button.querySelector("p");
     status.textContent = lastMessage
-        ? lastMessage.content
-        : "Start a conversation";
+    ? lastMessage.content
+    : "Start a conversation";
 
     button.addEventListener("click", async () => {
        activeConversationId = conversation.id;
+
+       localStorage.setItem(
+          "kadea_last_conversation",
+           conversation.id
+       );
 
        updateChatHeader(otherUser);
        openMobileChat();
@@ -552,6 +649,21 @@ function applyTheme(theme) {
 const savedTheme = localStorage.getItem("bestchat_theme") || "dark";
 applyTheme(savedTheme);
 
+function showToast(message) {
+    const toast = document.createElement("div");
+
+    toast.textContent = message;
+
+    toast.className =
+        "fixed bottom-24 left-1/2 -translate-x-1/2 bg-gray-900 text-white px-4 py-2 rounded-lg shadow-lg text-sm z-50 animate-pulse";
+
+    document.body.appendChild(toast);
+
+    setTimeout(() => {
+        toast.remove();
+    }, 3000);
+}
+
 // Actualisation automatique
 setInterval(() => {
 
@@ -663,6 +775,10 @@ deleteConversationBtn.addEventListener("click", () => {
             activeConversationId = null;
             selectedUser = null;
 
+            localStorage.removeItem(
+                "kadea_last_conversation"
+            );
+
             messagesContainer.innerHTML = "";
 
             chatUserName.textContent = "Select a conversation";
@@ -691,4 +807,10 @@ confirmOk.addEventListener("click", async () => {
 
     closeConfirmModal();
 
+});
+
+messageInput.addEventListener("input", () => {
+    if (messageInput.value.length === 500) {
+        showToast("Maximum 500 caractères.");
+    }
 });
