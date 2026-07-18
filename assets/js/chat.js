@@ -1,5 +1,5 @@
 import { getToken, getTheme, saveTheme } from './modules/storage.js';
-import { getData, postData, deleteData } from "./modules/api.js";
+import { getData, postData, deleteData, patchData } from "./modules/api.js";
 
 const chatBtn = document.getElementById("chat-btn");
 const uploatBtn = document.getElementById("uploat-btn");
@@ -38,6 +38,7 @@ const confirmTitle = document.getElementById("confirm-title");
 const confirmMessage = document.getElementById("confirm-message");
 const confirmCancel = document.getElementById("confirm-cancel");
 const confirmOk = document.getElementById("confirm-ok");
+const sendBtn = document.getElementById("sent-btn");
 const callBtn = document.getElementById("call-btn");
 const personBtn = document.getElementById("person-btn");
 const callBtn2 = document.getElementById("call-btn2");
@@ -56,6 +57,28 @@ let conversations = [];
 let listMode = "conversations";
 let renderedMessageIds = new Set();
 let confirmAction = null;
+let editingMessageId = null;
+let editingOriginalContent = "";
+
+const sendIcon = `
+    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" class="size-6">
+	    <path d="M0 0h24v24H0z" fill="none" />
+	    <path fill="currentColor" d="M3 20V4l19 8zm2-3l11.85-5L5 7v3.5l6 1.5l-6 1.5zm0 0V7z" />
+    </svg>
+`;
+
+const editIcon = `
+    <svg xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2.5"
+        class="size-6">
+        <path stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M5 12.5l4 4L19 7"/>
+    </svg>
+`;
 
 async function openConversation(user) {
     const existingConversation = conversations.find((conversation) => {
@@ -126,6 +149,7 @@ async function loadMessages(conversationId, reset = false) {
     if (reset) {
         messagesContainer.scrollTop = messagesContainer.scrollHeight;
     }
+   console.log("Messages reçuss :", result.data.messages);
 } 
 
 function createMessageBubble(message) {
@@ -145,7 +169,7 @@ function createMessageBubble(message) {
     bubble.textContent = message.content;
     bubble.className = isMine
     ? "relative inline-block md:max-w-[38rem] max-w-[18rem] break-words whitespace-pre-wrap rounded-2xl rounded-br-sm pl-4 pr-6 py-2 text-sm bg-blue-600 text-white shadow-sm"
-    : "inline-block md:max-w-[38rem] max-w-[18rem] break-words whitespace-pre-wrap rounded-2xl rounded-bl-sm px-4 py-2 text-sm bg-gray-200 text-gray-900 dark:bg-[#1E1F20] dark:text-white shadow-xl";
+    : "inline-block md:max-w-[38rem] max-w-[18rem] break-words whitespace-pre-wrap rounded-2xl rounded-bl-sm px-4 py-2 text-sm bg-gray-200 text-gray-900 dark:bg-[#1E1F20] dark:text-white shadow-sm";
 
     bubbleContainer.appendChild(bubble);
 
@@ -198,6 +222,34 @@ if (isMine) {
         "dark:bg-[#1E1F20] border border-gray-200 dark:border-gray-700 " +
         "shadow-xl overflow-hidden z-50";
 
+    //Edit button    
+    const editButton = document.createElement("button");
+
+    editButton.type = "button";
+    editButton.textContent = "✏️ Edit";
+
+    editButton.className =
+      "w-full px-4 py-2.5 text-left text-sm text-gray-700 " +
+      "hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-800 transition";
+
+    editButton.addEventListener("click", (event) => {
+        event.stopPropagation();
+
+        menu.classList.add("hidden");
+
+        editingMessageId = message.id;
+        editingOriginalContent = message.content;
+
+       messageInput.value = message.content;
+       messageInput.focus();
+
+       sendBtn.innerHTML = editIcon;
+       sendBtn.title = "Save changes";
+
+       showToast("Editing message.");
+    });
+
+    //delete button 
     const deleteButton = document.createElement("button");
 
     deleteButton.type = "button";
@@ -246,6 +298,7 @@ if (isMine) {
     menu.dataset.messageMenu = "true";
 
     menu.appendChild(copyButton);
+    menu.appendChild(editButton);
     menu.appendChild(deleteButton);
     bubbleContainer.appendChild(menuButton);
     bubbleContainer.appendChild(menu);
@@ -368,13 +421,46 @@ messageForm.addEventListener("submit", async (event) => {
 
     if (!content || !activeConversationId) return;
 
+    // Modification d'un message existant
+    if (editingMessageId) {
+        const result = await patchData(
+            `/messages/${editingMessageId}`,
+            { content },
+            token
+        );
+
+        if (!result.success) {
+            showToast("Unable to edit the message.");
+            return;
+        }
+
+        editingMessageId = null;
+        editingOriginalContent = "";
+
+        messageInput.value = "";
+
+        sendBtn.innerHTML = sendIcon;
+        sendBtn.title = "Send message";
+
+        sendBtn.classList.remove("bg-green-600", "hover:bg-green-700");
+        sendBtn.classList.add("bg-blue-600", "hover:bg-blue-700");
+
+        showToast("Message edited.");
+
+        await loadMessages(activeConversationId, true);
+        await loadConversations();
+
+        return;
+    }
+
+    // Envoi d'un nouveau message
     const result = await postData(
         `/conversations/${activeConversationId}/messages`,
         { content },
         token
     );
 
-    if(result.success) {
+    if (result.success) {
         messageInput.value = "";
 
         emojiPicker.classList.add("hidden");
