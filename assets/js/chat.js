@@ -132,53 +132,139 @@ function createMessageBubble(message) {
     const isMine = message.senderId === currentUserId;
 
     const wrapper = document.createElement("div");
-    wrapper.className = isMine  ? "w-full flex justify-end"
-    : "w-full flex justify-start";
-    
+    wrapper.className = isMine
+        ? "group w-full flex justify-end"
+        : "group w-full flex justify-start";
+
+    const bubbleContainer = document.createElement("div");
+    bubbleContainer.className = isMine
+        ? "relative flex flex-col items-end"
+        : "relative flex flex-col items-start";
+
     const bubble = document.createElement("div");
     bubble.textContent = message.content;
     bubble.className = isMine
-     ? "inline-block md:max-w-[38rem] max-w-[18rem] break-words whitespace-pre-wrap rounded-t-xl rounded-bl-xl px-4 py-2 text-sm bg-blue-600 text-white"
-     : "inline-block md:max-w-[38rem] max-w-[18rem] break-words whitespace-pre-wrap rounded-t-xl rounded-br-xl px-4 py-2 text-sm bg-gray-200 text-gray-900 dark:bg-[#1E1F20] dark:text-white";
-    const bubbleContainer = document.createElement("div");
-    bubbleContainer.className = isMine
-    ? "flex flex-col items-end"
-    : "flex flex-col items-start";
-
-    const actions = document.createElement("div");
-    actions.className = "mt-1 flex justify-end";
-
-    if(isMine) {
-        const deleteButton = document.createElement("button");
-
-        deleteButton.type = "button";
-        deleteButton.textContent = "supprimer";
-        deleteButton.className =
-            "text-xs text-red-500 hover:text-red-700";
-
-        deleteButton.addEventListener("click", () => {
-            deleteMessage(message.id);
-        });    
-
-        actions.appendChild(deleteButton);
-    }
-
-    const time = document.createElement("span");
-    time.className = "text-[11px] text-gray-400 mt-1";
-    
-    time.textContent = new Date(message.createdAt)
-        .toLocaleTimeString([], {
-            hour: "2-digit",
-            minute: "2-digit"
-        });
+    ? "relative inline-block md:max-w-[38rem] max-w-[18rem] break-words whitespace-pre-wrap rounded-2xl rounded-br-sm pl-4 pr-6 py-2 text-sm bg-blue-600 text-white shadow-sm"
+    : "inline-block md:max-w-[38rem] max-w-[18rem] break-words whitespace-pre-wrap rounded-2xl rounded-bl-sm px-4 py-2 text-sm bg-gray-200 text-gray-900 dark:bg-[#1E1F20] dark:text-white shadow-xl";
 
     bubbleContainer.appendChild(bubble);
-    bubbleContainer.appendChild(time);
-    if(isMine) {
-        bubbleContainer.appendChild(actions);
-    }
 
+if (isMine) {
+     
+    const copyButton = document.createElement("button");
+
+    copyButton.type = "button";
+    copyButton.textContent = "📋 Copy";
+
+    copyButton.className =
+      "w-full px-4 py-2.5 text-left text-sm text-gray-700 " +
+      "hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-800 transition";
+
+    copyButton.addEventListener("click", async (event) => {
+        event.stopPropagation();
+
+        try {
+            await navigator.clipboard.writeText(message.content);
+
+            menu.classList.add("hidden");
+            showToast("Message copied.");
+        } catch (error) {
+            showToast("Unable to copy the message.");
+        }
+    });
+
+    const menuButton = document.createElement("button");
+
+    menuButton.type = "button";
+
+    menuButton.innerHTML = `
+        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" class"size-5">
+	        <path d="M0 0h24v24H0z" fill="none" />
+	        <path fill="currentColor" fill-rule="evenodd" d="m6 7l6 6l6-6l2 2l-8 8l-8-8z" />
+        </svg>
+    `;
+
+    menuButton.className =
+        "absolute top-2 right-1 flex items-center justify-center" +
+        "size-5 opacity-0 pointer-events-none" +
+        "md:pointer-events-auto md:group-hover:opacity-100 " +
+        "transition-opacity duration-200 text-white/80 hover:text-white " +
+        "bg-blue-600/90 rounded-full z-10";
+
+    const menu = document.createElement("div");
+
+    menu.className =
+        "hidden absolute right-0 top-8 w-36 rounded-xl bg-white " +
+        "dark:bg-[#1E1F20] border border-gray-200 dark:border-gray-700 " +
+        "shadow-xl overflow-hidden z-50";
+
+    const deleteButton = document.createElement("button");
+
+    deleteButton.type = "button";
+    deleteButton.textContent = "🗑️ Delete";
+
+    deleteButton.className =
+        "w-full px-4 py-2.5 text-left text-sm text-red-500 " +
+        "hover:bg-gray-100 dark:hover:bg-gray-800 transition";
+
+    deleteButton.addEventListener("click", (event) => {
+        event.stopPropagation();
+        menu.classList.add("hidden");
+        deleteMessage(message.id);
+    });
+
+    menuButton.addEventListener("click", (event) => {
+        event.stopPropagation();
+
+        document
+            .querySelectorAll("[data-message-menu]")
+            .forEach((otherMenu) => {
+                if (otherMenu !== menu) {
+                    otherMenu.classList.add("hidden");
+                }
+            });
+
+        menu.classList.toggle("hidden");
+    });
+
+    bubble.addEventListener("click", (event) => {
+    if (window.innerWidth >= 768) return;
+
+    event.stopPropagation();
+
+    document.querySelectorAll("[data-message-menu-button]")
+        .forEach((button) => {
+            if (button !== menuButton) {
+                button.classList.add("opacity-0", "pointer-events-none");
+            }
+        });
+
+        menuButton.classList.toggle("opacity-0");
+        menuButton.classList.toggle("pointer-events-none");
+    });
+
+    menu.dataset.messageMenu = "true";
+
+    menu.appendChild(copyButton);
+    menu.appendChild(deleteButton);
+    bubbleContainer.appendChild(menuButton);
+    bubbleContainer.appendChild(menu);
+}
+
+    const time = document.createElement("span");
+
+    time.className = isMine
+        ? "text-[11px] text-gray-400 mt-1 mr-1"
+        : "text-[11px] text-gray-400 mt-1 ml-1";
+
+    time.textContent = new Date(message.createdAt).toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+    });
+
+    bubbleContainer.appendChild(time);
     wrapper.appendChild(bubbleContainer);
+
     return wrapper;
 }
 
