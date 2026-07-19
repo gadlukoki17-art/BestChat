@@ -1,9 +1,8 @@
-import { API_URL, API_KEY } from "./config.js";
+import { API_URL } from "./config.js";
 
 export async function postData(endpoint, data, token = null) {
     const headers = {
         "Content-Type": "application/json",
-        "x-api-key": API_KEY
     };
 
     if (token) {
@@ -20,23 +19,19 @@ export async function postData(endpoint, data, token = null) {
 }
 
 export async function getData(endpoint, token) {
-    const response = await fetch(API_URL + endpoint, {
-        method: "GET",
-         headers: {
-            "Content-type": "application/json",
-            "x-api-key": API_KEY,
-            "Authorization": `Bearer ${token}`
+    const response = await fetch(`${API_URL}${endpoint}`, {
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
         }
     });
 
-    const result = await response.json();
-    return result;
+    return response.json();
 }
 
 export async function deleteData(endpoint, token = null) {
     const headers = {
-        "Content-Type": "application/json",
-        "x-api-key": API_KEY
+        "Content-Type": "application/json"
     };
 
     if (token) {
@@ -53,8 +48,7 @@ export async function deleteData(endpoint, token = null) {
 
 export async function patchData(endpoint, data, token = null) {
     const headers = {
-        "Content-Type": "application/json",
-        "x-api-key": API_KEY
+        "Content-Type": "application/json"
     };
 
     if (token) {
