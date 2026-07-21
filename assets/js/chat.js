@@ -39,14 +39,10 @@ const confirmMessage = document.getElementById("confirm-message");
 const confirmCancel = document.getElementById("confirm-cancel");
 const confirmOk = document.getElementById("confirm-ok");
 const sendBtn = document.getElementById("sent-btn");
-const callBtn = document.getElementById("call-btn");
 const personBtn = document.getElementById("person-btn");
-const callBtn2 = document.getElementById("call-btn2");
-const videoBtn = document.getElementById("video-btn");
 const menuBtn = document.getElementById("menu-btn");
 const messagesContainer = document.getElementById("messages-container");
 const messageForm = document.getElementById("message-form");
-const addBtn = document.getElementById("add-btn");
 const messageInput = document.getElementById("message-input");
 
 // All variable
@@ -59,6 +55,7 @@ let renderedMessageIds = new Set();
 let confirmAction = null;
 let editingMessageId = null;
 let editingOriginalContent = "";
+let conversationsHash = "";
 
 const sendIcon = `
     <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" class="size-6">
@@ -209,9 +206,8 @@ if (isMine) {
     `;
 
     menuButton.className =
-        "absolute top-2 right-1 flex items-center justify-center" +
-        "size-5 opacity-0 pointer-events-none" +
-        "md:pointer-events-auto md:group-hover:opacity-100 " +
+        "absolute top-2 right-1 hidden md:flex items-center justify-center " +
+        "size-5 md:opacity-0 md:group-hover:opacity-100 " +
         "transition-opacity duration-200 text-white/80 hover:text-white " +
         "bg-blue-600/90 rounded-full z-10";
 
@@ -352,6 +348,20 @@ async function loadConversations() {
 
     if (result.success) {
         conversations = result.data.conversations;
+
+        const newHash = JSON.stringify(
+            conversations.map((conversation) => ({
+                id: conversation.id,
+                updatedAt: conversation.updatedAt,
+                lastMessage: conversation.messages?.at(-1)?.content
+            }))
+        );
+
+        if (newHash === conversationsHash) {
+            return;
+        }
+
+        conversationsHash = newHash;
 
         //Last message
         const savedConversationId = localStorage.getItem(
@@ -837,12 +847,18 @@ function showToast(message) {
 }
 
 // Actualisation automatique
-setInterval(() => {
+setInterval(async () => {
+    try {
+        if (activeConversationId) {
+            await loadMessages(activeConversationId);
+        }
 
-    if (activeConversationId) {
-        loadMessages(activeConversationId);
+        if (listMode === "conversations") {
+            await loadConversations();
+        }
+    } catch (error) {
+        console.error("Erreur pendant l’actualisation :", error);
     }
-
 }, 3000);
 
 document.addEventListener("click", () => {
