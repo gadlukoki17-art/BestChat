@@ -1,4 +1,6 @@
 import { postData } from './modules/api.js';
+import { initializeTheme } from "./modules/theme.js";
+
 
 const arrowback = document.getElementById("arrowback");
 const registerform = document.getElementById("register-form")
@@ -14,6 +16,14 @@ const eyeOpen2 = document.getElementById("eye-open-2");
 const eyeClosed2 = document.getElementById("eye-closed-2");
 const formMessage = document.getElementById("from-message");
 const createbtnText = document.getElementById("createbtn-text");
+
+//init theme
+initializeTheme();
+window.addEventListener("storage", (event) => {
+    if (event.key === "bestchat_theme") {
+        applyTheme(event.newValue);
+    }
+});
 
 function showError(message) {
     formMessage.textContent = message;

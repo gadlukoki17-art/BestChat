@@ -20,7 +20,7 @@ export function removeToken() {
     sessionStorage.removeItem(TOKEN_KEY);
 }
 
-const THEME_KEY = "kadea_theme";
+const THEME_KEY = "bestchat_theme";
 
 export function saveTheme(theme) {
     localStorage.setItem(THEME_KEY, theme);

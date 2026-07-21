@@ -1,5 +1,7 @@
 import { postData } from './modules/api.js';
 import { saveToken } from "./modules/storage.js";
+import { initializeTheme } from "./modules/theme.js";
+
 
 const loginForm = document.getElementById("login-form");
 const emailInput = document.getElementById("email");
@@ -12,6 +14,14 @@ const spinner = document.getElementById("spinner");
 const hidebtn = document.getElementById("hidebtn");
 const btnText = document.getElementById("btn-text");
 const formMessage = document.getElementById("from-message");
+
+//init theme
+initializeTheme();
+window.addEventListener("storage", (event) => {
+    if (event.key === "bestchat_theme") {
+        applyTheme(event.newValue);
+    }
+});
 
 function hideMessage() {
     formMessage.textContent = "";

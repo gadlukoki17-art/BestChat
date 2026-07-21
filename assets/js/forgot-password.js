@@ -1,4 +1,6 @@
 import { postData } from './modules/api.js';
+import { initializeTheme } from "./modules/theme.js";
+
 
 const forgotForm = document.getElementById("forgot-form");
 const emailInput = document.getElementById("email");
@@ -6,6 +8,14 @@ const resetBtn = document.getElementById("resetbtn");
 const spinner = document.getElementById("spinner");
 const btnText = document.getElementById("btn-text");
 const formMessage = document.getElementById("form-message");
+
+//init theme
+initializeTheme();
+window.addEventListener("storage", (event) => {
+    if (event.key === "bestchat_theme") {
+        applyTheme(event.newValue);
+    }
+});
 
 function showError(message) {
     formMessage.textContent = message;

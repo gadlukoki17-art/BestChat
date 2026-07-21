@@ -1,5 +1,6 @@
 import { getToken, getTheme, saveTheme } from './modules/storage.js';
 import { getData, postData, deleteData, patchData } from "./modules/api.js";
+import { initializeTheme, applyTheme } from "./modules/theme.js";
 
 const chatBtn = document.getElementById("chat-btn");
 const uploatBtn = document.getElementById("uploat-btn");
@@ -56,6 +57,14 @@ let confirmAction = null;
 let editingMessageId = null;
 let editingOriginalContent = "";
 let conversationsHash = "";
+
+//init theme
+initializeTheme();
+window.addEventListener("storage", (event) => {
+    if (event.key === "bestchat_theme") {
+        applyTheme(event.newValue);
+    }
+});
 
 const sendIcon = `
     <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" class="size-6">
@@ -820,16 +829,6 @@ function updateThemeText() {
 }
 
 updateThemeText();
-
-function applyTheme(theme) {
-    document.documentElement.classList.toggle(
-        "dark",
-        theme === "dark"
-    );
-}
-
-const savedTheme = localStorage.getItem("bestchat_theme") || "dark";
-applyTheme(savedTheme);
 
 function showToast(message) {
     const toast = document.createElement("div");

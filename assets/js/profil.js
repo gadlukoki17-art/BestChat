@@ -1,5 +1,7 @@
-import { getToken, removeToken, getTheme, saveTheme } from "./modules/storage.js";
+import { getToken, removeToken, saveTheme } from "./modules/storage.js";
 import { getData, patchData } from "./modules/api.js";
+import { initializeTheme, applyTheme } from "./modules/theme.js";
+
 
 // 1. DÉCLARATION DES VARIABLES & ÉLÉMENTS DOM
 const profileAvatar = document.getElementById("profile-avatar");
@@ -35,11 +37,6 @@ if (!token) {
 }
 
 // 3. LOGIQUE DU MODE SOMBRE (Déclarée et exécutée immédiatement)
-function applyTheme(theme) {
-    document.documentElement.classList.toggle("dark", theme === "dark");
-    updateThemeText(); // On met à jour le texte à chaque fois que le thème change
-}
-
 function updateThemeText() {
     if (!themeText) return;
     const isDark = document.documentElement.classList.contains("dark");
@@ -47,8 +44,14 @@ function updateThemeText() {
 }
 
 // Initialisation du thème dès le départ
-const savedTheme = localStorage.getItem("bestchat_theme") || "dark";
-applyTheme(savedTheme);
+initializeTheme();
+updateThemeText();
+window.addEventListener("storage", (event) => {
+    if (event.key === "bestchat_theme") {
+        applyTheme(event.newValue);
+        updateThemeText();
+    }
+});
 
 // 4. CHARGEMENT DU PROFIL
 async function loadProfile() {
@@ -141,6 +144,7 @@ if (themeBtn) {
 
         applyTheme(newTheme);
         saveTheme(newTheme); // Sauvegarde via ton module storage
+        updateThemeText();
     });
 }
 
