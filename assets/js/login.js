@@ -15,14 +15,6 @@ const hidebtn = document.getElementById("hidebtn");
 const btnText = document.getElementById("btn-text");
 const formMessage = document.getElementById("from-message");
 
-//init theme
-initializeTheme();
-window.addEventListener("storage", (event) => {
-    if (event.key === "bestchat_theme") {
-        applyTheme(event.newValue);
-    }
-});
-
 function hideMessage() {
     formMessage.textContent = "";
     formMessage.className = "hidden";

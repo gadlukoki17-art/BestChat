@@ -17,14 +17,6 @@ const eyeClosed2 = document.getElementById("eye-closed-2");
 const formMessage = document.getElementById("from-message");
 const createbtnText = document.getElementById("createbtn-text");
 
-//init theme
-initializeTheme();
-window.addEventListener("storage", (event) => {
-    if (event.key === "bestchat_theme") {
-        applyTheme(event.newValue);
-    }
-});
-
 function showError(message) {
     formMessage.textContent = message;
 

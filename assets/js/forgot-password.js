@@ -9,14 +9,6 @@ const spinner = document.getElementById("spinner");
 const btnText = document.getElementById("btn-text");
 const formMessage = document.getElementById("form-message");
 
-//init theme
-initializeTheme();
-window.addEventListener("storage", (event) => {
-    if (event.key === "bestchat_theme") {
-        applyTheme(event.newValue);
-    }
-});
-
 function showError(message) {
     formMessage.textContent = message;
     formMessage.className = 
