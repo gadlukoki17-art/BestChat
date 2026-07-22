@@ -1,25 +1,26 @@
-const express = require("express");
-const cors = require("cors");
-const dotenv = require("dotenv");
+const allowedOrigins = [
+    "http://127.0.0.1:5500",
+    "http://localhost:5500",
+    "http://127.0.0.1:5501",
+    "http://localhost:5501",
+    "https://gadlukoki17-art.github.io"
+];
 
-dotenv.config();
-
-const app = express();
-const PORT = process.env.PORT || 3000;
-
-// Autoriser les données JSON envoyées par le frontend
-app.use(express.json());
-
-// Autoriser ton frontend local à contacter le serveur
 app.use(
     cors({
-        origin: [
-            "http://127.0.0.1:5500",
-            "http://localhost:5500",
-            "https://gadlukoki17-art.github.io"
-        ]
+        origin(origin, callback) {
+            if (!origin || allowedOrigins.includes(origin)) {
+                callback(null, true);
+            } else {
+                callback(new Error("Origin not allowed by CORS"));
+            }
+        },
+        methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+        allowedHeaders: ["Content-Type", "Authorization"]
     })
 );
+
+app.use(express.json());
 
 // Route de test
 app.get("/", (req, res) => {
